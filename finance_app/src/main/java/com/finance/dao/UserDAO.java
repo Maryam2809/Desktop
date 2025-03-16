@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 
 public class UserDAO {
 
-    private static final String DB_URL = "jdbc:sqlite:src/main/resources/db/finance.db"; // Path to SQLite database
+    private static final String DB_URL = "jdbc:sqlite:src/main/resources/db/finance.db";
     private static final String INSERT_USER_QUERY = "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
 
     public boolean saveUser(User user) {
@@ -16,7 +16,7 @@ public class UserDAO {
             stmt.setString(1, user.getFirstName());
             stmt.setString(2, user.getLastName());
             stmt.setString(3, user.getEmail());
-            stmt.setString(4, user.getPassword()); // Store encrypted password
+            stmt.setString(4, user.getPassword());
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {

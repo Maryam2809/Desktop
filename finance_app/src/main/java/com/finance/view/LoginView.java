@@ -11,13 +11,11 @@ public class LoginView extends JFrame {
     private JButton loginButton;
 
     public LoginView() {
-        // Setup the frame
         setTitle("Login");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Create UI components
         usernameField = new JTextField(20);
         passwordField = new JPasswordField(20);
         loginButton = new JButton("Login");
@@ -29,12 +27,11 @@ public class LoginView extends JFrame {
         panel.add(usernameField);
         panel.add(new JLabel("Password:"));
         panel.add(passwordField);
-        panel.add(new JLabel()); // Empty label for spacing
+        panel.add(new JLabel());
         panel.add(loginButton);
 
         add(panel);
 
-        // Add event listener to the login button
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -43,12 +40,10 @@ public class LoginView extends JFrame {
         });
     }
 
-    // Method to handle login logic
     private void handleLogin() {
         String username = usernameField.getText();
         char[] password = passwordField.getPassword();
 
-        // Add your login logic here
         if (username.equals("admin") && String.valueOf(password).equals("password")) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
         } else {
