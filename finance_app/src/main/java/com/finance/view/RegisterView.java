@@ -58,6 +58,7 @@ public class RegisterView extends JFrame {
         if (success) {
             JOptionPane.showMessageDialog(this, "Registration Successful!");
             dispose();
+            new MainMenuView().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Registration Failed! Please try again.");
         }
