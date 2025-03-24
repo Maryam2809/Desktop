@@ -1,136 +1,94 @@
 package com.example;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
+import org.knowm.xchart.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DashboardPage extends JPanel {
 
-    public DashboardPage() {
+    private Map<String, Integer> totals;
+    private Map<Integer, Integer> monthsExpenses;
+    private List<Integer> dates;
+    private List<Integer> totalExpenses;
+
+    public DashboardPage(InputController controller) {
+        this.totals = controller.getExpensesByCategory();
+        this.monthsExpenses = controller.getMonthsExpenses();
+
+        this.dates = new ArrayList<>(monthsExpenses.keySet());
+        this.totalExpenses = new ArrayList<>(monthsExpenses.values());
+
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
 
-        // Create charts
-        ChartPanel pieChart = new ChartPanel(createPieChart());
-        ChartPanel lineChart = new ChartPanel(createLineChart());
-        ChartPanel barChart1 = new ChartPanel(createBarChart("Income vs Expenses"));
-        ChartPanel barChart2 = new ChartPanel(createBarChart("Savings vs Investments"));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        addPieChart(gbc);
 
-        // Create a scrollable list
-        JScrollPane listPanel = new JScrollPane(createTransactionList());
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 2;
+        addLineChart(gbc);
 
-        // Arrange charts in a grid layout
-        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 1; gbc.gridheight = 1;
-        add(pieChart, gbc);
-
-        gbc.gridx = 1; gbc.gridy = 0;
-        add(lineChart, gbc);
-
-        gbc.gridx = 0; gbc.gridy = 1;
-        add(barChart1, gbc);
-
-        gbc.gridx = 1; gbc.gridy = 1;
-        add(barChart2, gbc);
-
-        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
-        gbc.weighty = 0.5;
-        add(listPanel, gbc);
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+        addRecentExpenses(gbc);
     }
 
-    // PIE CHART
-    private JFreeChart createPieChart() {
-        DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("Rent", 30);
-        dataset.setValue("Groceries", 20);
-        dataset.setValue("Utilities", 15);
-        dataset.setValue("Savings", 25);
-        dataset.setValue("Entertainment", 10);
-
-        return ChartFactory.createPieChart("Expense Breakdown", dataset, true, true, false);
+    private void addPieChart(GridBagConstraints gbc) {
+        if (totals != null && !totals.isEmpty()) {
+            PieChart pieChart = new PieChartBuilder().width(300).height(200).title("Expense Categories").build();
+            for (Map.Entry<String, Integer> entry : totals.entrySet()) {
+                pieChart.addSeries(entry.getKey(), entry.getValue());
+            }
+            XChartPanel chartPanel = new   XChartPanel(pieChart);
+            chartPanel.setPreferredSize(new Dimension(400, 300));
+            add(chartPanel, gbc);
+        } else {
+            JLabel noDataLabel = new JLabel("No data to display yet");
+            add(noDataLabel, gbc);
+        }
     }
 
-    // LINE CHART
-    private JFreeChart createLineChart() {
-        XYSeries series = new XYSeries("Monthly Balance");
-        series.add(1, 500);
-        series.add(2, 700);
-        series.add(3, 800);
-        series.add(4, 750);
-        series.add(5, 900);
-        XYSeriesCollection dataset = new XYSeriesCollection(series);
+    private void addLineChart(GridBagConstraints gbc) {
+        if (dates != null && !dates.isEmpty()) {
+            XYChart lineChart = new XYChartBuilder()
+                    .width(300).height(200)
+                    .title("Expenses Over Last 30 Days")
+                    .xAxisTitle("Date")
+                    .yAxisTitle("Amount")
+                    .build();
 
-        return ChartFactory.createXYLineChart("Financial Growth", "Month", "Balance", dataset, PlotOrientation.VERTICAL, true, true, false);
+            lineChart.addSeries("Expenses", dates, totalExpenses);
+            XChartPanel chartPanel = new   XChartPanel(lineChart);
+            chartPanel.setPreferredSize(new Dimension(400, 300));
+            add(chartPanel, gbc);
+        } else {
+            JLabel noDataLabel = new JLabel("No recent expense data available");
+            add(noDataLabel, gbc);
+        }
     }
 
-    // BAR CHART
-    private JFreeChart createBarChart(String title) {
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.addValue(5000, "Income", "Jan");
-        dataset.addValue(5200, "Income", "Feb");
-        dataset.addValue(4800, "Income", "Mar");
-
-        dataset.addValue(3000, "Expenses", "Jan");
-        dataset.addValue(3100, "Expenses", "Feb");
-        dataset.addValue(2800, "Expenses", "Mar");
-
-        return ChartFactory.createBarChart(title, "Category", "Amount ($)", dataset, PlotOrientation.VERTICAL, true, true, false);
-    }
-
-    // LIST COMPONENT (Transaction History)
-    private JList<String> createTransactionList() {
+    //mock data for now
+    private void addRecentExpenses(GridBagConstraints gbc) {
         DefaultListModel<String> model = new DefaultListModel<>();
         model.addElement("Rent - $1200");
-        model.addElement("Salary - $5000");
         model.addElement("Groceries - $250");
-        model.addElement("Internet Bill - $60");
+        model.addElement("Salary - $5000");
         model.addElement("Investment - $500");
 
-        JList<String> list = new JList<>(model);
-        list.setFont(new Font("Arial", Font.PLAIN, 14));
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        return list;
+        JList<String> recentExpensesList = new JList<>(model);
+        JScrollPane scrollPane = new JScrollPane(recentExpensesList);
+        scrollPane.setPreferredSize(new Dimension(300, 500));
+        add(scrollPane, gbc);
     }
 }
-
-
-
-
-// dashbord page with graphs (layout manager)
-//menubar - buttons - click --> different component
-//different components themselves
-
-
-//card lyapout manager
-//menubar - on click different card
-
-//Jpanel panel= Jpanel();
-//Cardamnaber cardmamager= cardmanager();
-//cardmanager.add(panel);
-//panel.add(button1)
-//button1.actionlistener(new ActionListener() -> cardmanager.changecardtocard 1);
-//card1= class name
-
-
-
-//menubar and main page
-//dashboard page - graphs and stuff
-//home page
-
-
-
-
-//card panel - add different cards
-//menubar panel - add buttons- button click to different cards in card panel
-// make classes public ?

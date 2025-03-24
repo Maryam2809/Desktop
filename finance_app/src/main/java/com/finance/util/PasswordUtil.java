@@ -1,4 +1,4 @@
-package com.finance.util;
+/*package com.finance.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -13,4 +13,4 @@ public class PasswordUtil {
     public static boolean checkPassword(String plainTextPassword, String hashedPassword) {
         return passwordEncoder.matches(plainTextPassword, hashedPassword);
     }
-}
+}*/
