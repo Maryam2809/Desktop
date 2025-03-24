@@ -19,9 +19,11 @@ public class DatabaseConfig {
     public static void createTables() {
         String usersTable = "CREATE TABLE IF NOT EXISTS users ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "name TEXT NOT NULL, "
+                + "first_name TEXT NOT NULL, "
+                + "last_name TEXT NOT NULL, "
                 + "email TEXT UNIQUE NOT NULL, "
                 + "password TEXT NOT NULL);";
+
 
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
             stmt.execute(usersTable);

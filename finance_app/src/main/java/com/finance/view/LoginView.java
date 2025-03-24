@@ -4,11 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.finance.controller.UserController;
 
 public class LoginView extends JFrame {
-    private JTextField usernameField;
+    private JTextField emailField;
     private JPasswordField passwordField;
     private JButton loginButton;
+    private UserController userController;
 
     public LoginView() {
         setTitle("Login");
@@ -16,15 +18,15 @@ public class LoginView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        usernameField = new JTextField(20);
+        emailField = new JTextField(20);
         passwordField = new JPasswordField(20);
         loginButton = new JButton("Login");
+        userController = new UserController();
 
-        // Set up layout
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 2));
-        panel.add(new JLabel("Username:"));
-        panel.add(usernameField);
+        panel.add(new JLabel("Email:"));
+        panel.add(emailField);
         panel.add(new JLabel("Password:"));
         panel.add(passwordField);
         panel.add(new JLabel());
@@ -41,22 +43,20 @@ public class LoginView extends JFrame {
     }
 
     private void handleLogin() {
-        String username = usernameField.getText();
-        char[] password = passwordField.getPassword();
+        String email = emailField.getText();
+        String password = new String(passwordField.getPassword());
 
-        if (username.equals("admin") && String.valueOf(password).equals("password")) {
+        boolean success = userController.loginUser(email, password);
+
+        if (success) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
+            dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password.");
+            JOptionPane.showMessageDialog(this, "Invalid email or password.");
         }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new LoginView().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> new LoginView().setVisible(true));
     }
 }
