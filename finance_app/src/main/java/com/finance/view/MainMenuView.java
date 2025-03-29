@@ -5,12 +5,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.finance.config.DatabaseConfig;
+import com.finance.controller.UserController;
+import com.finance.dao.FinanceDAO;
+
 public class MainMenuView extends JFrame {
     private JPanel sidebarPanel;
     private JPanel contentPanel;
     private JButton homeButton, analyticsButton, inputButton, goalsButton, logoutButton;
 
     public MainMenuView() {
+        DatabaseConfig.createTables();
         setTitle("Finance Tracker - Main Menu");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,16 +46,16 @@ public class MainMenuView extends JFrame {
         add(sidebarPanel, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
 
-        homeButton.addActionListener(e -> updateSelection(homeButton, "Home Page (Coming Soon)"));
-        analyticsButton.addActionListener(e -> updateSelection(analyticsButton, "Analytics Page (Coming Soon)"));
-        inputButton.addActionListener(e -> updateSelection(inputButton, "Input Page (Coming Soon)"));
-        goalsButton.addActionListener(e -> updateSelection(goalsButton, "Goals Page (Coming Soon)"));
+        homeButton.addActionListener(e -> updateSelection(homeButton, new JLabel("Home Page (Coming Soon)")));
+        analyticsButton.addActionListener(e -> updateSelection(analyticsButton, new AnalyticsPageView()));
+        inputButton.addActionListener(e -> updateSelection(inputButton, new InputPageView()));
+        goalsButton.addActionListener(e -> updateSelection(goalsButton, new JLabel("Goals Page (Coming Soon)")));
         logoutButton.addActionListener(e -> {
             dispose();
             new LoginView().setVisible(true);
         });
 
-        updateSelection(homeButton, "Home Page (Coming Soon)");
+        updateSelection(homeButton, new JLabel("Home Page (Coming Soon)"));
     }
 
     private JButton createSidebarButton(String text) {
@@ -63,7 +68,7 @@ public class MainMenuView extends JFrame {
         return button;
     }
 
-    private void updateSelection(JButton selectedButton, String text) {
+    private void updateSelection(JButton selectedButton, Component component) {
         for (Component comp : sidebarPanel.getComponents()) {
             if (comp instanceof JButton) {
                 comp.setBackground(Color.DARK_GRAY);
@@ -71,8 +76,11 @@ public class MainMenuView extends JFrame {
         }
 
         selectedButton.setBackground(Color.GRAY);
-
-        showPanel(text);
+        
+        contentPanel.removeAll();
+        contentPanel.add(component, BorderLayout.CENTER);
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     private void showPanel(String text) {
