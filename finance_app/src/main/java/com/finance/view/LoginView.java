@@ -50,7 +50,7 @@ public class LoginView extends JFrame {
 
         if (success) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
-            dispose();
+            new MainMenuView().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Invalid email or password.");
         }
