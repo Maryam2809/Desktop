@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseConfig {
-    private static final String URL = "jdbc:sqlite:finance_tracker.db";
+    private static final String URL = "jdbc:sqlite:finance.db";
 
     public static Connection getConnection() {
         try {
@@ -24,9 +24,15 @@ public class DatabaseConfig {
                 + "email TEXT UNIQUE NOT NULL, "
                 + "password TEXT NOT NULL);";
 
+        String expensesTable = "CREATE TABLE IF NOT EXISTS expenses ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "description TEXT NOT NULL, "
+                + "amount REAL NOT NULL, "
+                + "category TEXT NOT NULL);";
 
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
             stmt.execute(usersTable);
+            stmt.execute(expensesTable);
             System.out.println("Database initialized.");
         } catch (SQLException e) {
             e.printStackTrace();

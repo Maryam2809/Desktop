@@ -1,13 +1,11 @@
 package com.finance.dao;
 
 import com.finance.model.User;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class UserDAO {
-    private static final String DB_URL = "jdbc:sqlite:src/main/resources/db/finance.db";
+    private static final String DB_URL = "jdbc:sqlite:finance.db";
+
     private static final String INSERT_USER_QUERY = "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
     private static final String GET_USER_QUERY = "SELECT * FROM users WHERE email = ?";
 
