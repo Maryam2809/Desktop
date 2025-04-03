@@ -26,14 +26,24 @@ public class DatabaseConfig {
 
         String expensesTable = "CREATE TABLE IF NOT EXISTS expenses ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "user_id INTEGER NOT NULL, "
                 + "description TEXT NOT NULL, "
                 + "amount REAL NOT NULL, "
-                + "category TEXT NOT NULL);";
+                + "category TEXT NOT NULL, "
+                + "date TEXT NOT NULL, "
+                + "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE);";
+
+        String goalsTable = "CREATE TABLE IF NOT EXISTS goals ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "name TEXT UNIQUE NOT NULL, "
+                + "spending_limit REAL NOT NULL, "
+                + "duration INTEGER NOT NULL);";
 
         try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {
             stmt.execute(usersTable);
             stmt.execute(expensesTable);
-            System.out.println("Database initialized.");
+            stmt.execute(goalsTable);
+            System.out.println("Database initialized successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

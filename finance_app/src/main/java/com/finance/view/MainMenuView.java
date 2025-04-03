@@ -49,7 +49,7 @@ public class MainMenuView extends JFrame {
         homeButton.addActionListener(e -> updateSelection(homeButton, new JLabel("Home Page (Coming Soon)")));
         analyticsButton.addActionListener(e -> updateSelection(analyticsButton, new AnalyticsPageView()));
         inputButton.addActionListener(e -> updateSelection(inputButton, new InputPageView()));
-        goalsButton.addActionListener(e -> updateSelection(goalsButton, new JLabel("Goals Page (Coming Soon)")));
+        goalsButton.addActionListener(e -> updateSelection(goalsButton, new GoalsView()));
         logoutButton.addActionListener(e -> {
             dispose();
             new LoginView().setVisible(true);
