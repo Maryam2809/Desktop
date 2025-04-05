@@ -17,6 +17,7 @@ public class HomeController {
 
     public void addNotification(String message) {
         notification.addMessage(message);
+        view.displayHome(user.getFirstName() + " " + user.getLastName(), notification.getMessages());
     }
 
     public void showHomePage() {
@@ -24,4 +25,5 @@ public class HomeController {
         view.displayHome(fullName, notification.getMessages());
     }
 }
-// test
+
+
