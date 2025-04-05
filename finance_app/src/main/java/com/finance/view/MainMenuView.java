@@ -46,7 +46,15 @@ public class MainMenuView extends JFrame {
         add(sidebarPanel, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
 
-        homeButton.addActionListener(e -> updateSelection(homeButton, new JLabel("Home Page (Coming Soon)")));
+        homeButton.addActionListener(e -> {
+            String userName = "Alice"; // mock user
+            java.util.List<String> notifications = java.util.Arrays.asList(
+                    "Budget report ready",
+                    "Check your goals",
+                    "New update available"
+            );
+            updateSelection(homeButton, new HomeView(userName, notifications));
+        });
         analyticsButton.addActionListener(e -> updateSelection(analyticsButton, new AnalyticsPageView()));
         inputButton.addActionListener(e -> updateSelection(inputButton, new InputPageView()));
         goalsButton.addActionListener(e -> updateSelection(goalsButton, new GoalsView()));
@@ -55,7 +63,6 @@ public class MainMenuView extends JFrame {
             new LoginView().setVisible(true);
         });
 
-        updateSelection(homeButton, new JLabel("Home Page (Coming Soon)"));
     }
 
     private JButton createSidebarButton(String text) {
@@ -76,7 +83,7 @@ public class MainMenuView extends JFrame {
         }
 
         selectedButton.setBackground(Color.GRAY);
-        
+
         contentPanel.removeAll();
         contentPanel.add(component, BorderLayout.CENTER);
         contentPanel.revalidate();
@@ -96,3 +103,4 @@ public class MainMenuView extends JFrame {
         SwingUtilities.invokeLater(() -> new MainMenuView().setVisible(true));
     }
 }
+
