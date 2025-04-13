@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">finance_app</a> &gt; <a href="index.source.html" class="el_package">com.finance.config</a> &gt; <span class="el_source">DatabaseConfig.java</span></div><h1>DatabaseConfig.java</h1><pre class="source lang-java linenums">package com.finance.config;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+<span class="nc" id="L8">public class DatabaseConfig {</span>
+    private static final String URL = &quot;jdbc:sqlite:finance.db&quot;;
+
+    public static Connection getConnection() {
+        try {
+<span class="nc" id="L13">            return DriverManager.getConnection(URL);</span>
+<span class="nc" id="L14">        } catch (SQLException e) {</span>
+<span class="nc" id="L15">            throw new RuntimeException(&quot;Error connecting to the database&quot;, e);</span>
+        }
+    }
+
+    public static void createTables() {
+<span class="nc" id="L20">        String usersTable = &quot;CREATE TABLE IF NOT EXISTS users (&quot;</span>
+                + &quot;id INTEGER PRIMARY KEY AUTOINCREMENT, &quot;
+                + &quot;first_name TEXT NOT NULL, &quot;
+                + &quot;last_name TEXT NOT NULL, &quot;
+                + &quot;email TEXT UNIQUE NOT NULL, &quot;
+                + &quot;password TEXT NOT NULL);&quot;;
+
+<span class="nc" id="L27">        String expensesTable = &quot;CREATE TABLE IF NOT EXISTS expenses (&quot;</span>
+                + &quot;id INTEGER PRIMARY KEY AUTOINCREMENT, &quot;
+                + &quot;user_id INTEGER NOT NULL, &quot;
+                + &quot;description TEXT NOT NULL, &quot;
+                + &quot;amount REAL NOT NULL, &quot;
+                + &quot;category TEXT NOT NULL, &quot;
+                + &quot;date TEXT NOT NULL, &quot;
+                + &quot;FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE);&quot;;
+
+<span class="nc" id="L36">        String goalsTable = &quot;CREATE TABLE IF NOT EXISTS goals (&quot;</span>
+                + &quot;id INTEGER PRIMARY KEY AUTOINCREMENT, &quot;
+                + &quot;name TEXT UNIQUE NOT NULL, &quot;
+                + &quot;spending_limit REAL NOT NULL, &quot;
+                + &quot;duration INTEGER NOT NULL);&quot;;
+
+<span class="nc" id="L42">        try (Connection conn = getConnection(); Statement stmt = conn.createStatement()) {</span>
+<span class="nc" id="L43">            stmt.execute(usersTable);</span>
+<span class="nc" id="L44">            stmt.execute(expensesTable);</span>
+<span class="nc" id="L45">            stmt.execute(goalsTable);</span>
+<span class="nc" id="L46">            System.out.println(&quot;Database initialized successfully.&quot;);</span>
+<span class="nc" id="L47">        } catch (SQLException e) {</span>
+<span class="nc" id="L48">            e.printStackTrace();</span>
+<span class="nc" id="L49">        }</span>
+<span class="nc" id="L50">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
