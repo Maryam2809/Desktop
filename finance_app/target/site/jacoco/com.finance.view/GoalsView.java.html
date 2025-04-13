@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GoalsView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">finance_app</a> &gt; <a href="index.source.html" class="el_package">com.finance.view</a> &gt; <span class="el_source">GoalsView.java</span></div><h1>GoalsView.java</h1><pre class="source lang-java linenums">package com.finance.view;
+
+import com.finance.controller.GoalsController;
+import com.finance.model.Goal;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+public class GoalsView extends JPanel {
+    private GoalsController goalsController;
+    private DefaultListModel&lt;String&gt; goalsListModel;
+    private JList&lt;String&gt; goalsList;
+    private JTextField goalNameField, spendingLimitField, durationField;
+
+<span class="nc" id="L18">    public GoalsView() {</span>
+<span class="nc" id="L19">        goalsController = new GoalsController();</span>
+
+<span class="nc" id="L21">        setLayout(new BorderLayout());</span>
+<span class="nc" id="L22">        JLabel title = new JLabel(&quot;Manage Goals&quot;, SwingConstants.CENTER);</span>
+<span class="nc" id="L23">        title.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 18));</span>
+<span class="nc" id="L24">        add(title, BorderLayout.NORTH);</span>
+
+<span class="nc" id="L26">        goalsListModel = new DefaultListModel&lt;&gt;();</span>
+<span class="nc" id="L27">        goalsList = new JList&lt;&gt;(goalsListModel);</span>
+<span class="nc" id="L28">        JScrollPane scrollPane = new JScrollPane(goalsList);</span>
+<span class="nc" id="L29">        add(scrollPane, BorderLayout.CENTER);</span>
+
+<span class="nc" id="L31">        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 10, 10));</span>
+
+<span class="nc" id="L33">        inputPanel.add(new JLabel(&quot;Goal Name:&quot;));</span>
+<span class="nc" id="L34">        goalNameField = new JTextField();</span>
+<span class="nc" id="L35">        inputPanel.add(goalNameField);</span>
+
+<span class="nc" id="L37">        inputPanel.add(new JLabel(&quot;Spending Limit:&quot;));</span>
+<span class="nc" id="L38">        spendingLimitField = new JTextField();</span>
+<span class="nc" id="L39">        inputPanel.add(spendingLimitField);</span>
+
+<span class="nc" id="L41">        inputPanel.add(new JLabel(&quot;Duration (weeks):&quot;));</span>
+<span class="nc" id="L42">        durationField = new JTextField();</span>
+<span class="nc" id="L43">        inputPanel.add(durationField);</span>
+
+<span class="nc" id="L45">        JButton addGoalButton = new JButton(&quot;Add Goal&quot;);</span>
+<span class="nc" id="L46">        JButton removeGoalButton = new JButton(&quot;Remove Selected Goal&quot;);</span>
+
+<span class="nc" id="L48">        inputPanel.add(addGoalButton);</span>
+<span class="nc" id="L49">        inputPanel.add(removeGoalButton);</span>
+
+<span class="nc" id="L51">        add(inputPanel, BorderLayout.SOUTH);</span>
+
+<span class="nc" id="L53">        refreshGoalsList();</span>
+
+<span class="nc" id="L55">        addGoalButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L58">                addGoal();</span>
+<span class="nc" id="L59">            }</span>
+        });
+
+<span class="nc" id="L62">        removeGoalButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L65">                removeGoal();</span>
+<span class="nc" id="L66">            }</span>
+        });
+<span class="nc" id="L68">    }</span>
+
+    private void refreshGoalsList() {
+<span class="nc" id="L71">        goalsListModel.clear();</span>
+<span class="nc" id="L72">        List&lt;Goal&gt; goals = goalsController.getAllGoals();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        for (Goal goal : goals) {</span>
+<span class="nc" id="L74">            goalsListModel.addElement(goal.getName() + &quot; - Limit: £&quot; + goal.getSpendingLimit() + &quot; (&quot; + goal.getDuration() + &quot; weeks)&quot;);</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc" id="L76">    }</span>
+
+    private void addGoal() {
+<span class="nc" id="L79">        String name = goalNameField.getText();</span>
+<span class="nc" id="L80">        String limitText = spendingLimitField.getText();</span>
+<span class="nc" id="L81">        String durationText = durationField.getText();</span>
+
+<span class="nc bnc" id="L83" title="All 6 branches missed.">        if (name.isEmpty() || limitText.isEmpty() || durationText.isEmpty()) {</span>
+<span class="nc" id="L84">            JOptionPane.showMessageDialog(this, &quot;All fields must be filled&quot;, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L85">            return;</span>
+        }
+
+        try {
+<span class="nc" id="L89">            double limit = Double.parseDouble(limitText);</span>
+<span class="nc" id="L90">            int duration = Integer.parseInt(durationText);</span>
+<span class="nc" id="L91">            goalsController.addGoal(new Goal(name, limit, duration));</span>
+<span class="nc" id="L92">            refreshGoalsList();</span>
+<span class="nc" id="L93">            JOptionPane.showMessageDialog(this, &quot;Goal added successfully!&quot;);</span>
+<span class="nc" id="L94">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L95">            JOptionPane.showMessageDialog(this, &quot;Invalid number format&quot;, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L96">        }</span>
+<span class="nc" id="L97">    }</span>
+
+    private void removeGoal() {
+<span class="nc" id="L100">        int selectedIndex = goalsList.getSelectedIndex();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (selectedIndex != -1) {</span>
+<span class="nc" id="L102">            String selectedGoal = goalsListModel.getElementAt(selectedIndex);</span>
+<span class="nc" id="L103">            String goalName = selectedGoal.split(&quot; - &quot;)[0];</span>
+
+<span class="nc" id="L105">            goalsController.removeGoal(goalName);</span>
+<span class="nc" id="L106">            refreshGoalsList();</span>
+<span class="nc" id="L107">            JOptionPane.showMessageDialog(this, &quot;Goal removed successfully!&quot;);</span>
+<span class="nc" id="L108">        } else {</span>
+<span class="nc" id="L109">            JOptionPane.showMessageDialog(this, &quot;Select a goal to remove&quot;, &quot;Error&quot;, JOptionPane.ERROR_MESSAGE);</span>
+        }
+<span class="nc" id="L111">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

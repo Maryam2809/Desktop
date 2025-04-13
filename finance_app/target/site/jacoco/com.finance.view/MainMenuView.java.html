@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainMenuView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">finance_app</a> &gt; <a href="index.source.html" class="el_package">com.finance.view</a> &gt; <span class="el_source">MainMenuView.java</span></div><h1>MainMenuView.java</h1><pre class="source lang-java linenums">package com.finance.view;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import com.finance.config.DatabaseConfig;
+import com.finance.controller.UserController;
+import com.finance.dao.FinanceDAO;
+
+public class MainMenuView extends JFrame {
+    private JPanel sidebarPanel;
+    private JPanel contentPanel;
+    private JButton homeButton, analyticsButton, inputButton, goalsButton, logoutButton;
+
+<span class="nc" id="L17">    public MainMenuView() {</span>
+<span class="nc" id="L18">        DatabaseConfig.createTables();</span>
+<span class="nc" id="L19">        setTitle(&quot;Finance Tracker - Main Menu&quot;);</span>
+<span class="nc" id="L20">        setSize(800, 500);</span>
+<span class="nc" id="L21">        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L22">        setLocationRelativeTo(null);</span>
+<span class="nc" id="L23">        setLayout(new BorderLayout());</span>
+
+<span class="nc" id="L25">        sidebarPanel = new JPanel();</span>
+<span class="nc" id="L26">        sidebarPanel.setLayout(new GridLayout(5, 1));</span>
+<span class="nc" id="L27">        sidebarPanel.setPreferredSize(new Dimension(200, getHeight()));</span>
+<span class="nc" id="L28">        sidebarPanel.setBackground(Color.DARK_GRAY);</span>
+
+<span class="nc" id="L30">        homeButton = createSidebarButton(&quot;Home&quot;);</span>
+<span class="nc" id="L31">        analyticsButton = createSidebarButton(&quot;Analytics&quot;);</span>
+<span class="nc" id="L32">        inputButton = createSidebarButton(&quot;Input&quot;);</span>
+<span class="nc" id="L33">        goalsButton = createSidebarButton(&quot;Goals&quot;);</span>
+<span class="nc" id="L34">        logoutButton = createSidebarButton(&quot;Logout&quot;);</span>
+
+<span class="nc" id="L36">        sidebarPanel.add(homeButton);</span>
+<span class="nc" id="L37">        sidebarPanel.add(analyticsButton);</span>
+<span class="nc" id="L38">        sidebarPanel.add(inputButton);</span>
+<span class="nc" id="L39">        sidebarPanel.add(goalsButton);</span>
+<span class="nc" id="L40">        sidebarPanel.add(logoutButton);</span>
+
+<span class="nc" id="L42">        contentPanel = new JPanel();</span>
+<span class="nc" id="L43">        contentPanel.setLayout(new BorderLayout());</span>
+<span class="nc" id="L44">        showPanel(&quot;Welcome to Finance Tracker!&quot;);</span>
+
+<span class="nc" id="L46">        add(sidebarPanel, BorderLayout.WEST);</span>
+<span class="nc" id="L47">        add(contentPanel, BorderLayout.CENTER);</span>
+
+<span class="nc" id="L49">        homeButton.addActionListener(e -&gt; {</span>
+<span class="nc" id="L50">            String userName = &quot;Alice&quot;; // mock user</span>
+<span class="nc" id="L51">            java.util.List&lt;String&gt; notifications = java.util.Arrays.asList(</span>
+                    &quot;Budget report ready&quot;,
+                    &quot;Check your goals&quot;,
+                    &quot;New update available&quot;
+            );
+<span class="nc" id="L56">            updateSelection(homeButton, new HomeView(userName, notifications));</span>
+<span class="nc" id="L57">        });</span>
+<span class="nc" id="L58">        analyticsButton.addActionListener(e -&gt; updateSelection(analyticsButton, new AnalyticsPageView()));</span>
+<span class="nc" id="L59">        inputButton.addActionListener(e -&gt; updateSelection(inputButton, new InputPageView()));</span>
+<span class="nc" id="L60">        goalsButton.addActionListener(e -&gt; updateSelection(goalsButton, new GoalsView()));</span>
+<span class="nc" id="L61">        logoutButton.addActionListener(e -&gt; {</span>
+<span class="nc" id="L62">            dispose();</span>
+<span class="nc" id="L63">            new LoginView().setVisible(true);</span>
+<span class="nc" id="L64">        });</span>
+
+<span class="nc" id="L66">    }</span>
+
+    private JButton createSidebarButton(String text) {
+<span class="nc" id="L69">        JButton button = new JButton(text);</span>
+<span class="nc" id="L70">        button.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 14));</span>
+<span class="nc" id="L71">        button.setForeground(Color.WHITE);</span>
+<span class="nc" id="L72">        button.setBackground(Color.DARK_GRAY);</span>
+<span class="nc" id="L73">        button.setFocusPainted(false);</span>
+<span class="nc" id="L74">        button.setBorderPainted(false);</span>
+<span class="nc" id="L75">        return button;</span>
+    }
+
+    private void updateSelection(JButton selectedButton, Component component) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        for (Component comp : sidebarPanel.getComponents()) {</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (comp instanceof JButton) {</span>
+<span class="nc" id="L81">                comp.setBackground(Color.DARK_GRAY);</span>
+            }
+        }
+
+<span class="nc" id="L85">        selectedButton.setBackground(Color.GRAY);</span>
+
+<span class="nc" id="L87">        contentPanel.removeAll();</span>
+<span class="nc" id="L88">        contentPanel.add(component, BorderLayout.CENTER);</span>
+<span class="nc" id="L89">        contentPanel.revalidate();</span>
+<span class="nc" id="L90">        contentPanel.repaint();</span>
+<span class="nc" id="L91">    }</span>
+
+    private void showPanel(String text) {
+<span class="nc" id="L94">        contentPanel.removeAll();</span>
+<span class="nc" id="L95">        JLabel label = new JLabel(text, SwingConstants.CENTER);</span>
+<span class="nc" id="L96">        label.setFont(new Font(&quot;Arial&quot;, Font.BOLD, 18));</span>
+<span class="nc" id="L97">        contentPanel.add(label, BorderLayout.CENTER);</span>
+<span class="nc" id="L98">        contentPanel.revalidate();</span>
+<span class="nc" id="L99">        contentPanel.repaint();</span>
+<span class="nc" id="L100">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L103">        SwingUtilities.invokeLater(() -&gt; new MainMenuView().setVisible(true));</span>
+<span class="nc" id="L104">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

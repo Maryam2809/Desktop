@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InputPageView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">finance_app</a> &gt; <a href="index.source.html" class="el_package">com.finance.view</a> &gt; <span class="el_source">InputPageView.java</span></div><h1>InputPageView.java</h1><pre class="source lang-java linenums">package com.finance.view;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import com.finance.dao.FinanceDAO;
+import com.finance.model.Expense;
+
+public class InputPageView extends JPanel {
+    private JTextField descriptionField, amountField, categoryField;
+    private JButton addButton, removeButton;
+    private JTextArea expenseListArea;
+    private FinanceDAO financeDAO;
+
+<span class="nc" id="L15">    public InputPageView() {</span>
+<span class="nc" id="L16">        setLayout(new BorderLayout());</span>
+
+<span class="nc" id="L18">        financeDAO = new FinanceDAO();</span>
+<span class="nc" id="L19">        descriptionField = new JTextField(20);</span>
+<span class="nc" id="L20">        amountField = new JTextField(20);</span>
+<span class="nc" id="L21">        categoryField = new JTextField(20);</span>
+<span class="nc" id="L22">        addButton = new JButton(&quot;Add Expense&quot;);</span>
+<span class="nc" id="L23">        removeButton = new JButton(&quot;Remove Expense&quot;);</span>
+
+<span class="nc" id="L25">        JPanel inputPanel = new JPanel();</span>
+<span class="nc" id="L26">        inputPanel.setLayout(new GridLayout(4, 2));</span>
+<span class="nc" id="L27">        inputPanel.add(new JLabel(&quot;Description:&quot;));</span>
+<span class="nc" id="L28">        inputPanel.add(descriptionField);</span>
+<span class="nc" id="L29">        inputPanel.add(new JLabel(&quot;Amount:&quot;));</span>
+<span class="nc" id="L30">        inputPanel.add(amountField);</span>
+<span class="nc" id="L31">        inputPanel.add(new JLabel(&quot;Category:&quot;));</span>
+<span class="nc" id="L32">        inputPanel.add(categoryField);</span>
+<span class="nc" id="L33">        inputPanel.add(addButton);</span>
+<span class="nc" id="L34">        inputPanel.add(removeButton);</span>
+
+<span class="nc" id="L36">        expenseListArea = new JTextArea();</span>
+<span class="nc" id="L37">        expenseListArea.setEditable(false);</span>
+<span class="nc" id="L38">        JScrollPane scrollPane = new JScrollPane(expenseListArea);</span>
+
+<span class="nc" id="L40">        add(inputPanel, BorderLayout.NORTH);</span>
+<span class="nc" id="L41">        add(scrollPane, BorderLayout.CENTER);</span>
+
+<span class="nc" id="L43">        addButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L46">                addExpense();</span>
+<span class="nc" id="L47">            }</span>
+        });
+
+<span class="nc" id="L50">        removeButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L53">                removeExpense();</span>
+<span class="nc" id="L54">            }</span>
+        });
+
+<span class="nc" id="L57">        updateExpenseList();</span>
+<span class="nc" id="L58">    }</span>
+
+    private void addExpense() {
+<span class="nc" id="L61">        String description = descriptionField.getText();</span>
+<span class="nc" id="L62">        double amount = Double.parseDouble(amountField.getText());</span>
+<span class="nc" id="L63">        String category = categoryField.getText();</span>
+
+<span class="nc" id="L65">        Expense expense = new Expense(description, amount, category);</span>
+<span class="nc" id="L66">        financeDAO.addExpense(expense);</span>
+
+<span class="nc" id="L68">        updateExpenseList();</span>
+<span class="nc" id="L69">        descriptionField.setText(&quot;&quot;);</span>
+<span class="nc" id="L70">        amountField.setText(&quot;&quot;);</span>
+<span class="nc" id="L71">        categoryField.setText(&quot;&quot;);</span>
+<span class="nc" id="L72">    }</span>
+
+    private void removeExpense() {
+<span class="nc" id="L75">        String[] expenses = expenseListArea.getText().split(&quot;\n&quot;);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (expenses.length &gt; 0) {</span>
+<span class="nc" id="L77">            int expenseId = Integer.parseInt(JOptionPane.showInputDialog(&quot;Enter the ID of the expense to remove:&quot;));</span>
+<span class="nc" id="L78">            financeDAO.removeExpense(expenseId);</span>
+<span class="nc" id="L79">            updateExpenseList();</span>
+        }
+<span class="nc" id="L81">    }</span>
+
+    private void updateExpenseList() {
+<span class="nc" id="L84">        StringBuilder list = new StringBuilder();</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        for (Expense expense : financeDAO.getAllExpenses()) {</span>
+<span class="nc" id="L86">            list.append(&quot;ID: &quot;).append(expense.getId()).append(&quot;, &quot;)</span>
+<span class="nc" id="L87">                    .append(&quot;Description: &quot;).append(expense.getDescription()).append(&quot;, &quot;)</span>
+<span class="nc" id="L88">                    .append(&quot;Amount: &quot;).append(expense.getAmount()).append(&quot;, &quot;)</span>
+<span class="nc" id="L89">                    .append(&quot;Category: &quot;).append(expense.getCategory()).append(&quot;\n&quot;);</span>
+<span class="nc" id="L90">        }</span>
+<span class="nc" id="L91">        expenseListArea.setText(list.toString());</span>
+<span class="nc" id="L92">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
