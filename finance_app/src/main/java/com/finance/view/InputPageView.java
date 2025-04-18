@@ -7,7 +7,9 @@ import com.finance.dao.FinanceDAO;
 import com.finance.model.Expense;
 
 public class InputPageView extends JPanel {
-    private JTextField descriptionField, amountField, categoryField;
+    private JTextField descriptionField, amountField, dateField;
+    private JComboBox<String> categoryDropdown;
+    private JComboBox<String> typeDropdown;
     private JButton addButton, removeButton;
     private JTextArea expenseListArea;
     private FinanceDAO financeDAO;
@@ -18,18 +20,24 @@ public class InputPageView extends JPanel {
         financeDAO = new FinanceDAO();
         descriptionField = new JTextField(20);
         amountField = new JTextField(20);
-        categoryField = new JTextField(20);
+        dateField = new JTextField(10);
+        categoryDropdown = new JComboBox<>(new String[]{"Food", "Clothes", "Other", "Insurance", "Utilities", "Entertainment", "Health"});
+        typeDropdown = new JComboBox<>(new String[]{"Expense", "Income"});
         addButton = new JButton("Add Expense");
         removeButton = new JButton("Remove Expense");
 
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(4, 2));
+        inputPanel.setLayout(new GridLayout(6, 2));
         inputPanel.add(new JLabel("Description:"));
         inputPanel.add(descriptionField);
         inputPanel.add(new JLabel("Amount:"));
         inputPanel.add(amountField);
         inputPanel.add(new JLabel("Category:"));
-        inputPanel.add(categoryField);
+        inputPanel.add(categoryDropdown);
+        inputPanel.add(new JLabel("Date (YYYY-MM-DD):"));
+        inputPanel.add(dateField);
+        inputPanel.add(new JLabel("Type:"));
+        inputPanel.add(typeDropdown);
         inputPanel.add(addButton);
         inputPanel.add(removeButton);
 
@@ -60,15 +68,17 @@ public class InputPageView extends JPanel {
     private void addExpense() {
         String description = descriptionField.getText();
         double amount = Double.parseDouble(amountField.getText());
-        String category = categoryField.getText();
+        String category = (String) categoryDropdown.getSelectedItem();
+        String date = dateField.getText();
+        String type = (String) typeDropdown.getSelectedItem();
 
-        Expense expense = new Expense(description, amount, category);
+        Expense expense = new Expense(description, amount, category, date, type);
         financeDAO.addExpense(expense);
 
         updateExpenseList();
         descriptionField.setText("");
         amountField.setText("");
-        categoryField.setText("");
+        dateField.setText("");
     }
 
     private void removeExpense() {
@@ -86,7 +96,9 @@ public class InputPageView extends JPanel {
             list.append("ID: ").append(expense.getId()).append(", ")
                     .append("Description: ").append(expense.getDescription()).append(", ")
                     .append("Amount: ").append(expense.getAmount()).append(", ")
-                    .append("Category: ").append(expense.getCategory()).append("\n");
+                    .append("Category: ").append(expense.getCategory()).append(", ")
+                    .append("Date: ").append(expense.getDate()).append(", ")
+                    .append("Type: ").append(expense.getType()).append("\n");
         }
         expenseListArea.setText(list.toString());
     }
