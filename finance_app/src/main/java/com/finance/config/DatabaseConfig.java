@@ -31,6 +31,7 @@ public class DatabaseConfig {
                 + "amount REAL NOT NULL, "
                 + "category TEXT NOT NULL, "
                 + "date TEXT NOT NULL, "
+                + "type TEXT NOT NULL, "
                 + "FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE);";
 
         String goalsTable = "CREATE TABLE IF NOT EXISTS goals ("
