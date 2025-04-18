@@ -2,12 +2,7 @@ package com.finance.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import com.finance.config.DatabaseConfig;
-import com.finance.controller.UserController;
-import com.finance.dao.FinanceDAO;
 
 public class MainMenuView extends JFrame {
     private JPanel sidebarPanel;
@@ -15,12 +10,12 @@ public class MainMenuView extends JFrame {
     private JButton homeButton, analyticsButton, inputButton, goalsButton, logoutButton;
 
     public MainMenuView() {
-        DatabaseConfig.createTables();
         setTitle("Finance Tracker - Main Menu");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        setAlwaysOnTop(true);
 
         sidebarPanel = new JPanel();
         sidebarPanel.setLayout(new GridLayout(5, 1));
@@ -47,7 +42,7 @@ public class MainMenuView extends JFrame {
         add(contentPanel, BorderLayout.CENTER);
 
         homeButton.addActionListener(e -> {
-            String userName = "Alice"; // mock user
+            String userName = "Alice";
             java.util.List<String> notifications = java.util.Arrays.asList(
                     "Budget report ready",
                     "Check your goals",
@@ -55,14 +50,16 @@ public class MainMenuView extends JFrame {
             );
             updateSelection(homeButton, new HomeView(userName, notifications));
         });
+
         analyticsButton.addActionListener(e -> updateSelection(analyticsButton, new AnalyticsPageView()));
         inputButton.addActionListener(e -> updateSelection(inputButton, new InputPageView()));
         goalsButton.addActionListener(e -> updateSelection(goalsButton, new GoalsView()));
         logoutButton.addActionListener(e -> {
             dispose();
-            new LoginView().setVisible(true);
+            new com.finance.AppLauncher().main(null);
         });
 
+        setVisible(true);
     }
 
     private JButton createSidebarButton(String text) {
@@ -83,7 +80,6 @@ public class MainMenuView extends JFrame {
         }
 
         selectedButton.setBackground(Color.GRAY);
-
         contentPanel.removeAll();
         contentPanel.add(component, BorderLayout.CENTER);
         contentPanel.revalidate();
@@ -98,9 +94,4 @@ public class MainMenuView extends JFrame {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainMenuView().setVisible(true));
-    }
 }
-

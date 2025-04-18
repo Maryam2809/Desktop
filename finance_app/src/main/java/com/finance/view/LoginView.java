@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.finance.config.DatabaseConfig;
 import com.finance.controller.UserController;
 
 public class LoginView extends JFrame {
@@ -52,14 +51,10 @@ public class LoginView extends JFrame {
 
         if (success) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
+            dispose();
             new MainMenuView().setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Invalid email or password.");
         }
-    }
-
-    public static void main(String[] args) {
-        DatabaseConfig.createTables();
-        SwingUtilities.invokeLater(() -> new LoginView().setVisible(true));
     }
 }
