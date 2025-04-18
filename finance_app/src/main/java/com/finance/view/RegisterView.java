@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import com.finance.controller.UserController;
 
 public class RegisterView extends JFrame {
@@ -62,14 +63,5 @@ public class RegisterView extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Registration Failed! Please try again.");
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new RegisterView().setVisible(true);
-            }
-        });
     }
 }

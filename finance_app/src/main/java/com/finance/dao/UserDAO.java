@@ -2,15 +2,14 @@ package com.finance.dao;
 
 import com.finance.model.User;
 import java.sql.*;
+import com.finance.config.DatabaseConfig;
 
 public class UserDAO {
-    private static final String DB_URL = "jdbc:sqlite:finance.db";
-
     private static final String INSERT_USER_QUERY = "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
     private static final String GET_USER_QUERY = "SELECT * FROM users WHERE email = ?";
 
     public boolean saveUser(User user) {
-        try (Connection conn = DriverManager.getConnection(DB_URL)) {
+        try (Connection conn = DatabaseConfig.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(INSERT_USER_QUERY);
             stmt.setString(1, user.getFirstName());
             stmt.setString(2, user.getLastName());
@@ -25,7 +24,7 @@ public class UserDAO {
     }
 
     public User getUserByEmail(String email) {
-        try (Connection conn = DriverManager.getConnection(DB_URL);
+        try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(GET_USER_QUERY)) {
             stmt.setString(1, email);
             ResultSet rs = stmt.executeQuery();
