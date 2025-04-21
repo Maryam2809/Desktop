@@ -1,6 +1,7 @@
 package com.finance.view;
 
 import com.finance.dao.FinanceDAO;
+import com.finance.model.Goal;
 import com.finance.model.User;
 
 import javax.swing.*;
@@ -72,9 +73,15 @@ public class HomeView extends JPanel {
         double totalExpenses = financeDAO.getTotalExpenses();
         String formattedExpenses = String.format("£%,.2f", totalExpenses);
 
+        double totalSavings = financeDAO.getTotalSavings();
+        String formattedSavings = String.format("£%,.2f", totalSavings);
+
+        List<Goal> goals = financeDAO.getGoals();
+        String goalsSummary = String.format("%d/%d Achieved", goals.size(), 5);
+
         statsPanel.add(createStatCard("Expenses", formattedExpenses));
-        statsPanel.add(createStatCard("Savings", "£300"));
-        statsPanel.add(createStatCard("Goals", "2/5 Achieved"));
+        statsPanel.add(createStatCard("Savings", formattedSavings));
+        statsPanel.add(createStatCard("Goals", goalsSummary));
 
         return statsPanel;
     }

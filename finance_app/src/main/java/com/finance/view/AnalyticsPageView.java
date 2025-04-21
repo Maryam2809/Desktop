@@ -12,6 +12,8 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AnalyticsPageView extends JPanel {
     private FinanceDAO financeDAO;
@@ -25,6 +27,9 @@ public class AnalyticsPageView extends JPanel {
         DefaultPieDataset weeklyDataset = new DefaultPieDataset();
         DefaultPieDataset monthlyDataset = new DefaultPieDataset();
 
+        Map<String, Double> weeklyCategoryTotals = new HashMap<>();
+        Map<String, Double> monthlyCategoryTotals = new HashMap<>();
+
         double totalWeekly = 0;
         double totalMonthly = 0;
         LocalDate now = LocalDate.now();
@@ -33,14 +38,28 @@ public class AnalyticsPageView extends JPanel {
             LocalDate expenseDate = LocalDate.parse(expense.getDate(), DateTimeFormatter.ISO_DATE);
 
             if (expenseDate.isAfter(now.minusWeeks(1))) {
-                weeklyDataset.setValue(expense.getCategory(), expense.getAmount());
+                weeklyCategoryTotals.put(
+                        expense.getCategory(),
+                        weeklyCategoryTotals.getOrDefault(expense.getCategory(), 0.0) + expense.getAmount()
+                );
                 totalWeekly += expense.getAmount();
             }
 
             if (expenseDate.getMonth() == now.getMonth() && expenseDate.getYear() == now.getYear()) {
-                monthlyDataset.setValue(expense.getCategory(), expense.getAmount());
+                monthlyCategoryTotals.put(
+                        expense.getCategory(),
+                        monthlyCategoryTotals.getOrDefault(expense.getCategory(), 0.0) + expense.getAmount()
+                );
                 totalMonthly += expense.getAmount();
             }
+        }
+
+        for (Map.Entry<String, Double> entry : weeklyCategoryTotals.entrySet()) {
+            weeklyDataset.setValue(entry.getKey(), entry.getValue());
+        }
+
+        for (Map.Entry<String, Double> entry : monthlyCategoryTotals.entrySet()) {
+            monthlyDataset.setValue(entry.getKey(), entry.getValue());
         }
 
         JFreeChart weeklyChart = ChartFactory.createPieChart(
