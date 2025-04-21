@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.finance.controller.UserController;
+import com.finance.model.User;
 
 public class LoginView extends JFrame {
     private JTextField emailField;
@@ -47,12 +48,12 @@ public class LoginView extends JFrame {
         String email = emailField.getText();
         String password = new String(passwordField.getPassword());
 
-        boolean success = userController.loginUser(email, password);
+        User user = userController.loginUser(email, password);
 
-        if (success) {
+        if (user != null) {
             JOptionPane.showMessageDialog(this, "Login Successful!");
             dispose();
-            new MainMenuView().setVisible(true);
+            new MainMenuView(user).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Invalid email or password.");
         }

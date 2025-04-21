@@ -1,8 +1,9 @@
 package com.finance.view;
 
+import com.finance.model.User;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 public class HomeView extends JPanel {
@@ -13,21 +14,20 @@ public class HomeView extends JPanel {
     private JButton viewReportBtn;
     private JButton setGoalBtn;
 
-    public HomeView(String userName, List<String> notifications) {
+    public HomeView(User user, List<String> notifications) {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(800, 600));
 
-        add(createGreetingPanel(userName), BorderLayout.NORTH);
+        String firstName = user.getFirstName();
+        add(createGreetingPanel(firstName), BorderLayout.NORTH);
         add(createCenterPanel(notifications), BorderLayout.CENTER);
-
-
     }
 
-    private JPanel createGreetingPanel(String userName) {
+    private JPanel createGreetingPanel(String firstName) {
         JPanel greetingPanel = new JPanel(new BorderLayout());
         greetingPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
-        greetingLabel = new JLabel("Hi " + userName + "!", SwingConstants.CENTER);
+        greetingLabel = new JLabel("Hi " + firstName + "!", SwingConstants.CENTER);
         greetingLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
         greetingPanel.add(greetingLabel, BorderLayout.CENTER);
@@ -89,10 +89,8 @@ public class HomeView extends JPanel {
         return card;
     }
 
-
-
-    public void displayHome(String userName, List<String> notifications) {
-        greetingLabel.setText("Hi " + userName + "!");
+    public void displayHome(User user, List<String> notifications) {
+        greetingLabel.setText("Hi " + user.getFirstName() + "!");
 
         if (notifications == null || notifications.isEmpty()) {
             notificationsArea.setText("No notifications.");
@@ -104,7 +102,4 @@ public class HomeView extends JPanel {
             notificationsArea.setText(sb.toString());
         }
     }
-
-
 }
-

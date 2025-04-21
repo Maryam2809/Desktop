@@ -2,14 +2,22 @@ package com.finance.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.Arrays;
+
 import com.finance.config.DatabaseConfig;
+import com.finance.model.User;
 
 public class MainMenuView extends JFrame {
     private JPanel sidebarPanel;
     private JPanel contentPanel;
     private JButton homeButton, analyticsButton, inputButton, goalsButton, logoutButton;
 
-    public MainMenuView() {
+    private final User user;
+
+    public MainMenuView(User user) {
+        this.user = user;
+
         setTitle("Finance Tracker - Main Menu");
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,13 +50,12 @@ public class MainMenuView extends JFrame {
         add(contentPanel, BorderLayout.CENTER);
 
         homeButton.addActionListener(e -> {
-            String userName = "Alice";
-            java.util.List<String> notifications = java.util.Arrays.asList(
+            List<String> notifications = Arrays.asList(
                     "Budget report ready",
                     "Check your goals",
                     "New update available"
             );
-            updateSelection(homeButton, new HomeView(userName, notifications));
+            updateSelection(homeButton, new HomeView(user, notifications));
         });
 
         analyticsButton.addActionListener(e -> updateSelection(analyticsButton, new AnalyticsPageView()));
