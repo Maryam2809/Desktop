@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.finance.controller.UserController;
+import com.finance.model.User;
 
 public class RegisterView extends JFrame {
     private JTextField firstNameField, lastNameField, emailField;
@@ -53,13 +54,14 @@ public class RegisterView extends JFrame {
         String email = emailField.getText();
         String password = new String(passwordField.getPassword());
 
+        User user = new User(firstName, lastName, email, password);
         UserController userController = new UserController();
-        boolean success = userController.registerUser(firstName, lastName, email, password);
+        boolean success = userController.registerUser(user);
 
         if (success) {
             JOptionPane.showMessageDialog(this, "Registration Successful!");
             dispose();
-            new MainMenuView().setVisible(true);
+            new MainMenuView(user).setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Registration Failed! Please try again.");
         }

@@ -17,13 +17,10 @@ public class HomeController {
 
     public void addNotification(String message) {
         notification.addMessage(message);
-        view.displayHome(user.getFirstName() + " " + user.getLastName(), notification.getMessages());
+        view.displayHome(user, notification.getMessages());
     }
 
     public void showHomePage() {
-        String fullName = user.getFirstName() + " " + user.getLastName();
-        view.displayHome(fullName, notification.getMessages());
+        view.displayHome(user, notification.getMessages());
     }
 }
-
-
