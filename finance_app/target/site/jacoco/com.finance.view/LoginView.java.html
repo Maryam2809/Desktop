@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginView.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">finance_app</a> &gt; <a href="index.source.html" class="el_package">com.finance.view</a> &gt; <span class="el_source">LoginView.java</span></div><h1>LoginView.java</h1><pre class="source lang-java linenums">package com.finance.view;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import com.finance.controller.UserController;
+
+public class LoginView extends JFrame {
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private UserController userController;
+
+<span class="nc" id="L16">    public LoginView() {</span>
+<span class="nc" id="L17">        setTitle(&quot;Login&quot;);</span>
+<span class="nc" id="L18">        setSize(400, 300);</span>
+<span class="nc" id="L19">        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L20">        setLocationRelativeTo(null);</span>
+
+<span class="nc" id="L22">        emailField = new JTextField(20);</span>
+<span class="nc" id="L23">        passwordField = new JPasswordField(20);</span>
+<span class="nc" id="L24">        loginButton = new JButton(&quot;Login&quot;);</span>
+<span class="nc" id="L25">        userController = new UserController();</span>
+
+<span class="nc" id="L27">        JPanel panel = new JPanel();</span>
+<span class="nc" id="L28">        panel.setLayout(new GridLayout(3, 2));</span>
+<span class="nc" id="L29">        panel.add(new JLabel(&quot;Email:&quot;));</span>
+<span class="nc" id="L30">        panel.add(emailField);</span>
+<span class="nc" id="L31">        panel.add(new JLabel(&quot;Password:&quot;));</span>
+<span class="nc" id="L32">        panel.add(passwordField);</span>
+<span class="nc" id="L33">        panel.add(new JLabel());</span>
+<span class="nc" id="L34">        panel.add(loginButton);</span>
+
+<span class="nc" id="L36">        add(panel);</span>
+
+<span class="nc" id="L38">        loginButton.addActionListener(new ActionListener() {</span>
+            @Override
+            public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L41">                handleLogin();</span>
+<span class="nc" id="L42">            }</span>
+        });
+<span class="nc" id="L44">    }</span>
+
+    private void handleLogin() {
+<span class="nc" id="L47">        String email = emailField.getText();</span>
+<span class="nc" id="L48">        String password = new String(passwordField.getPassword());</span>
+
+<span class="nc" id="L50">        boolean success = userController.loginUser(email, password);</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (success) {</span>
+<span class="nc" id="L53">            JOptionPane.showMessageDialog(this, &quot;Login Successful!&quot;);</span>
+<span class="nc" id="L54">            dispose();</span>
+<span class="nc" id="L55">            new MainMenuView().setVisible(true);</span>
+        } else {
+<span class="nc" id="L57">            JOptionPane.showMessageDialog(this, &quot;Invalid email or password.&quot;);</span>
+        }
+<span class="nc" id="L59">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

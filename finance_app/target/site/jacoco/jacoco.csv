@@ -1,0 +1,27 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+finance_app,com.finance.model,Expense,60,0,0,0,25,0,13,0,13,0
+finance_app,com.finance.model,Notification,17,0,0,0,6,0,3,0,3,0
+finance_app,com.finance.model,User,43,0,0,0,18,0,9,0,9,0
+finance_app,com.finance.model,Goal,21,0,0,0,8,0,4,0,4,0
+finance_app,com.finance.view,RegisterView.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
+finance_app,com.finance.view,GoalsView,270,0,10,0,60,0,9,0,4,0
+finance_app,com.finance.view,RegisterView,174,0,2,0,37,0,3,0,2,0
+finance_app,com.finance.view,LoginView,130,0,2,0,29,0,3,0,2,0
+finance_app,com.finance.view,GoalsView.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
+finance_app,com.finance.view,InputPageView.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
+finance_app,com.finance.view,GoalsView.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
+finance_app,com.finance.view,InputPageView.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
+finance_app,com.finance.view,InputPageView,351,0,4,0,62,0,6,0,4,0
+finance_app,com.finance.view,LoginView.new ActionListener() {...},10,0,0,0,3,0,2,0,2,0
+finance_app,com.finance.view,MainMenuView,316,0,4,0,63,0,11,0,9,0
+finance_app,com.finance.view,AnalyticsPageView,146,0,8,0,30,0,5,0,1,0
+finance_app,com.finance.view,HomeView,305,0,12,0,54,0,12,0,6,0
+finance_app,com.finance.dao,GoalDAO,94,0,2,0,35,0,5,0,4,0
+finance_app,com.finance.dao,UserDAO,93,0,8,0,26,0,7,0,3,0
+finance_app,com.finance.dao,FinanceDAO,118,0,2,0,40,0,5,0,4,0
+finance_app,com.finance.config,DatabaseConfig,44,0,0,0,16,0,3,0,3,0
+finance_app,com.finance,AppLauncher,52,0,4,0,14,0,6,0,4,0
+finance_app,com.finance.util,PasswordUtil,17,0,0,0,4,0,4,0,4,0
+finance_app,com.finance.controller,HomeController,46,0,0,0,11,0,3,0,3,0
+finance_app,com.finance.controller,UserController,38,0,2,0,10,0,4,0,3,0
+finance_app,com.finance.controller,GoalsController,22,0,0,0,8,0,4,0,4,0
