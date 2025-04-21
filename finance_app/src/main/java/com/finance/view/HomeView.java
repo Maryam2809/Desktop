@@ -1,5 +1,6 @@
 package com.finance.view;
 
+import com.finance.dao.FinanceDAO;
 import com.finance.model.User;
 
 import javax.swing.*;
@@ -14,9 +15,13 @@ public class HomeView extends JPanel {
     private JButton viewReportBtn;
     private JButton setGoalBtn;
 
+    private FinanceDAO financeDAO;
+
     public HomeView(User user, List<String> notifications) {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(800, 600));
+
+        financeDAO = new FinanceDAO();
 
         String firstName = user.getFirstName();
         add(createGreetingPanel(firstName), BorderLayout.NORTH);
@@ -64,7 +69,10 @@ public class HomeView extends JPanel {
         JPanel statsPanel = new JPanel(new GridLayout(1, 3, 10, 10));
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        statsPanel.add(createStatCard("Expenses", "£1,200"));
+        double totalExpenses = financeDAO.getTotalExpenses();
+        String formattedExpenses = String.format("£%,.2f", totalExpenses);
+
+        statsPanel.add(createStatCard("Expenses", formattedExpenses));
         statsPanel.add(createStatCard("Savings", "£300"));
         statsPanel.add(createStatCard("Goals", "2/5 Achieved"));
 
