@@ -12,6 +12,7 @@ public class FinanceDAO {
     private static final String INSERT_EXPENSE_QUERY = "INSERT INTO expenses (user_id, description, amount, category, date, type) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String REMOVE_EXPENSE_QUERY = "DELETE FROM expenses WHERE id = ?";
     private static final String GET_ALL_EXPENSES_QUERY = "SELECT * FROM expenses";
+    private static final String GET_TOTAL_EXPENSES_QUERY = "SELECT SUM(amount) as total FROM expenses WHERE type = 'Expense'";
 
     public void addExpense(Expense expense) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -59,5 +60,16 @@ public class FinanceDAO {
             e.printStackTrace();
         }
         return expenses;
+    }
+
+    public double getTotalExpenses() {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(GET_TOTAL_EXPENSES_QUERY);
+             ResultSet rs = stmt.executeQuery()) {
+            return rs.next() ? rs.getDouble("total") : 0.0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0.0;
+        }
     }
 }
