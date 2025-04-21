@@ -20,8 +20,7 @@ com/finance/view/InputPageView$1.class
 com/finance/controller/GoalsController.class
 com/finance/controller/HomeController.class
 com/finance/model/User.class
-com/finance/view/RegisterView$2.class
+com/finance/AppLauncher.class
 com/finance/controller/UserController.class
 com/finance/view/RegisterView.class
-com/finance/FinanceApplication.class
 com/finance/view/GoalsView$1.class
