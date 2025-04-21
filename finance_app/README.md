@@ -33,6 +33,7 @@ In your terminal run:
 `xhost + 127.0.0.1`
 
 ### Step 3: Start the App
+In the terminal run:
 `docker-compose up`
 
 ### Stopping the App
