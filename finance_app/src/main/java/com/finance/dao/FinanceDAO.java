@@ -1,6 +1,7 @@
 package com.finance.dao;
 
 import com.finance.model.Expense;
+import com.finance.model.Goal;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ public class FinanceDAO {
     private static final String REMOVE_EXPENSE_QUERY = "DELETE FROM expenses WHERE id = ?";
     private static final String GET_ALL_EXPENSES_QUERY = "SELECT * FROM expenses";
     private static final String GET_TOTAL_EXPENSES_QUERY = "SELECT SUM(amount) as total FROM expenses WHERE type = 'Expense'";
+    private static final String GET_TOTAL_SAVINGS_QUERY = "SELECT SUM(amount) as total FROM expenses WHERE type = 'Saving'";
+    private static final String GET_GOALS_QUERY = "SELECT * FROM goals";
 
     public void addExpense(Expense expense) {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement stmt = conn.prepareStatement(INSERT_EXPENSE_QUERY)) {
-            stmt.setInt(1, 1); // Temporary user_id
+            stmt.setInt(1, 1);
             stmt.setString(2, expense.getDescription());
             stmt.setDouble(3, expense.getAmount());
             stmt.setString(4, expense.getCategory());
@@ -71,5 +74,36 @@ public class FinanceDAO {
             e.printStackTrace();
             return 0.0;
         }
+    }
+
+    public double getTotalSavings() {
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement stmt = conn.prepareStatement(GET_TOTAL_SAVINGS_QUERY);
+             ResultSet rs = stmt.executeQuery()) {
+            return rs.next() ? rs.getDouble("total") : 0.0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0.0;
+        }
+    }
+
+    public List<Goal> getGoals() {
+        List<Goal> goals = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(GET_GOALS_QUERY)) {
+
+            while (rs.next()) {
+                Goal goal = new Goal(
+                        rs.getString("name"),
+                        rs.getDouble("spending_limit"),
+                        rs.getInt("duration")
+                );
+                goals.add(goal);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return goals;
     }
 }
