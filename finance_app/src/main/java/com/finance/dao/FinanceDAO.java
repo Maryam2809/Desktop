@@ -16,13 +16,13 @@ public class FinanceDAO {
     private static final String GET_TOTAL_EXPENSES_QUERY = "SELECT SUM(amount) as total FROM expenses WHERE type = 'Expense'";
     private static final String GET_TOTAL_SAVINGS_QUERY = "SELECT SUM(amount) as total FROM expenses WHERE type = 'Saving'";
     private static final String GET_GOALS_QUERY = "SELECT * FROM goals";
-    private static final String GET_RECENT_EXPENSES_QUERY = "SELECT TOP 5 * FROM expenses ORDER BY date DESC;";
+    private static final String GET_RECENT_EXPENSES_QUERY = "SELECT * FROM expenses ORDER BY date DESC LIMIT 5;";
 
     public List<Expense> getRecentExpenses(){
         List<Expense> expenses = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(GET_ALL_EXPENSES_QUERY)) {
+             ResultSet rs = stmt.executeQuery(GET_RECENT_EXPENSES_QUERY)) {
 
             while (rs.next()) {
                 Expense expense = new Expense(
