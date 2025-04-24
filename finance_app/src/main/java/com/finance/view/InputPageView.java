@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import com.finance.dao.FinanceDAO;
 import com.finance.model.Expense;
+import java.util.List;
 
 public class InputPageView extends JPanel {
     private JTextField descriptionField, amountField, dateField;
@@ -13,6 +14,11 @@ public class InputPageView extends JPanel {
     private JButton addButton, removeButton;
     private JTextArea expenseListArea;
     private FinanceDAO financeDAO;
+    private JComboBox<String> filterCategoryDropdown;
+    private JComboBox<String> filterTypeDropdown;
+    private JTextField filterDateField;
+    private JButton filterButton;
+
 
     public InputPageView() {
         setLayout(new BorderLayout());
@@ -47,6 +53,30 @@ public class InputPageView extends JPanel {
 
         add(inputPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
+
+        filterCategoryDropdown = new JComboBox<>(new String[]{"All", "Food", "Clothes", "Other", "Insurance", "Utilities", "Entertainment", "Health"});
+        filterTypeDropdown = new JComboBox<>(new String[]{"All", "Expense", "Income"});
+        filterDateField = new JTextField(10);
+        filterButton = new JButton("Filter");
+
+        JPanel filterPanel = new JPanel();
+        filterPanel.add(new JLabel("Category:"));
+        filterPanel.add(filterCategoryDropdown);
+        filterPanel.add(new JLabel("Type:"));
+        filterPanel.add(filterTypeDropdown);
+        filterPanel.add(new JLabel("Date (YYYY-MM-DD):"));
+        filterPanel.add(filterDateField);
+        filterPanel.add(filterButton);
+
+        add(filterPanel, BorderLayout.SOUTH);
+
+        filterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateExpenseListWithFilters();
+            }
+        });
+
 
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -89,6 +119,26 @@ public class InputPageView extends JPanel {
             updateExpenseList();
         }
     }
+
+    private void updateExpenseListWithFilters() {
+        String category = (String) filterCategoryDropdown.getSelectedItem();
+        String type = (String) filterTypeDropdown.getSelectedItem();
+        String date = filterDateField.getText();
+
+        List<Expense> filtered = financeDAO.getFilteredExpenses(category, type, date);
+
+        StringBuilder list = new StringBuilder();
+        for (Expense expense : filtered) {
+            list.append("ID: ").append(expense.getId()).append(", ")
+                    .append("Description: ").append(expense.getDescription()).append(", ")
+                    .append("Amount: ").append(expense.getAmount()).append(", ")
+                    .append("Category: ").append(expense.getCategory()).append(", ")
+                    .append("Date: ").append(expense.getDate()).append(", ")
+                    .append("Type: ").append(expense.getType()).append("\n");
+        }
+        expenseListArea.setText(list.toString());
+    }
+
 
     private void updateExpenseList() {
         StringBuilder list = new StringBuilder();
