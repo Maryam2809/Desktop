@@ -56,5 +56,4 @@ public class FinanceDAOTest {
             assertEquals("Alice", rs.getString("first_name"));
         }
     }
-
 }
