@@ -58,4 +58,11 @@ public class LoginView extends JFrame {
             JOptionPane.showMessageDialog(this, "Invalid email or password.");
         }
     }
+    public JButton getLoginButton() {return loginButton;}
+    public JPasswordField getPasswordField(){
+        return passwordField;
+    }
+    public JTextField getEmailField(){
+        return emailField;
+    }
 }
