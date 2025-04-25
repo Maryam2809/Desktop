@@ -19,7 +19,7 @@ public class MainMenuView extends JFrame {
         this.user = user;
 
         setTitle("Finance Tracker - Main Menu");
-        setSize(800, 500);
+        setSize(1300, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
