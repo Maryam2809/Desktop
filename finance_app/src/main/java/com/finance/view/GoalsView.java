@@ -43,8 +43,8 @@ public class GoalsView extends JPanel {
         durationField = new JTextField();
         inputPanel.add(durationField);
 
-        JButton addGoalButton = new JButton("Add Goal");
-        JButton removeGoalButton = new JButton("Remove Selected Goal");
+        addGoalButton = new JButton("Add Goal");
+        removeGoalButton = new JButton("Remove Selected Goal");
 
         inputPanel.add(addGoalButton);
         inputPanel.add(removeGoalButton);

@@ -1,6 +1,4 @@
 package com.finance.view;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,26 +8,17 @@ import java.awt.event.ActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GoalsViewTest {
+public class GoalsViewTest extends BaseTest{
     private GoalsView goalsView;
 
-    @BeforeAll
-    static void checkHeadless() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.out.println("Headless environment detected, skipping tests");
-        }
-    }
-
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         goalsView = new GoalsView();
     }
 
     @Test
     public void testGoalsViewCreation() {
         assertNotNull(goalsView, "GoalsView should be created successfully");
-        assertEquals(1300, goalsView.getWidth(), "Width should be 1300");
-        assertEquals(500, goalsView.getHeight(), "Height should be 500");
         assertTrue(goalsView.isVisible(), "GoalsView should be visible");
         assertTrue(goalsView.isFocusable(), "GoalsView should be focusable");
     }

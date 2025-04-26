@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AnalyticsPageViewTest {
+class AnalyticsPageViewTest extends BaseTest{
     private AnalyticsPageView view;
 
     @BeforeAll

@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class LoginViewTest {
+public class LoginViewTest extends BaseTest{
     LoginView loginView;
 
     @BeforeAll
