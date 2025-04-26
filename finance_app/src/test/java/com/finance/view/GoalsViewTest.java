@@ -23,15 +23,15 @@ public class GoalsViewTest extends BaseTest {
 
     @Test
     public void testAddButtonActionListener() {
-        JButton addButton = goalsView.getAddGoalButton();  // Use the actual button
-        ActionListener[] listeners = addButton.getActionListeners();  // Retrieve listeners
+        JButton addButton = goalsView.getAddGoalButton();
+        ActionListener[] listeners = addButton.getActionListeners();
         assertEquals(1, listeners.length, "There should be one listener for the Add Goal button");
     }
 
     @Test
     public void testRemoveButtonActionListener() {
-        JButton removeButton = goalsView.getRemoveGoalButton();  // Use the actual button
-        ActionListener[] listeners = removeButton.getActionListeners();  // Retrieve listeners
+        JButton removeButton = goalsView.getRemoveGoalButton();
+        ActionListener[] listeners = removeButton.getActionListeners();
         assertEquals(1, listeners.length, "There should be one listener for the Remove Goal button");
     }
 }
