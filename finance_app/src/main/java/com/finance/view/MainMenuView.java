@@ -18,7 +18,7 @@ public class MainMenuView extends JFrame {
     public MainMenuView(User user) {
         this.user = user;
 
-        setTitle("Finance Tracker - Main Menu");
+        setTitle("Finance Tracker");
         setSize(1300, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -101,4 +101,25 @@ public class MainMenuView extends JFrame {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
+    public JPanel getSidebarPanel() {
+        return sidebarPanel;
+    }
+
+    public JPanel getContentPanel() {
+        return contentPanel;
+    }
+
+    public JButton getAnalyticsButton() {
+        return analyticsButton;
+    }
+    public JButton getHomeButton() {
+        return homeButton;
+    }
+    public JButton getInputButton() {
+        return inputButton;
+    }
+    public JButton getGoalsButton() {
+        return goalsButton;
+    }
+
 }

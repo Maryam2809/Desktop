@@ -152,4 +152,37 @@ public class InputPageView extends JPanel {
         }
         expenseListArea.setText(list.toString());
     }
+
+    public JTextField getDescriptionField() {
+        return descriptionField;
+    }
+
+    public JTextField getAmountField() {
+        return amountField;
+    }
+
+    public JTextField getDateField() {
+        return dateField;
+    }
+
+    public JComboBox<String> getCategoryDropdown() {
+        return categoryDropdown;
+    }
+
+    public JComboBox<String> getTypeDropdown() {
+        return typeDropdown;
+    }
+
+    public JButton getAddButton() {
+        return addButton;
+    }
+
+    public JButton getRemoveButton() {
+        return removeButton;
+    }
+
+    public JTextArea getExpenseListArea() {
+        return expenseListArea;
+    }
+
 }

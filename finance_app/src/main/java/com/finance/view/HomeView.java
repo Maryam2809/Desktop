@@ -117,4 +117,13 @@ public class HomeView extends JPanel {
             notificationsArea.setText(sb.toString());
         }
     }
+
+    public JLabel getGreetingLabel() {
+        return greetingLabel;
+    }
+
+    public JTextArea getNotificationsArea() {
+        return notificationsArea;
+    }
+
 }
