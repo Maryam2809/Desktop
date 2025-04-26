@@ -8,8 +8,14 @@ import java.util.List;
 public class GoalsController {
     private GoalDAO goalDAO;
 
+    // Default constructor (for production use)
     public GoalsController() {
-        goalDAO = new GoalDAO();
+        this.goalDAO = new GoalDAO();
+    }
+
+    // New constructor (for testing/mocking)
+    public GoalsController(GoalDAO goalDAO) {
+        this.goalDAO = goalDAO;
     }
 
     public void addGoal(Goal goal) {

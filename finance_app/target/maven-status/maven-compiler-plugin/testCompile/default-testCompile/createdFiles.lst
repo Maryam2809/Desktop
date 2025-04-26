@@ -3,9 +3,7 @@ com/finance/view/GoalsViewTest.class
 com/finance/model/UserTest.class
 com/finance/config/DatabaseConfigTest.class
 com/finance/controller/HomeControllerTest.class
-com/finance/view/RegisterViewTest.class
 com/finance/view/LoginViewTest.class
-com/finance/view/InputPageViewTest.class
 com/finance/view/HomeViewTest.class
 com/finance/config/DatabaseConfigTest$TestDatabaseConfig.class
 com/finance/dao/UserDAOTest.class
@@ -15,6 +13,4 @@ com/finance/dao/FinanceDAOTest.class
 com/finance/model/ExpenseTest.class
 com/finance/model/GoalTest.class
 com/finance/dao/GoalDAOTest.class
-com/finance/view/AnalyticsPageViewTest.class
-com/finance/controller/GoalsControllerTest.class
 com/finance/util/PasswordUtilTest.class
