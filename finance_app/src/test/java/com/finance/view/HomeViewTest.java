@@ -11,9 +11,7 @@ public class HomeViewTest extends BaseTest {
 
     @BeforeEach
     public void setUp() {
-        homeView = mock(HomeView.class); // Mock HomeView class
-
-        // Mocking the components
+        homeView = mock(HomeView.class);
         JLabel mockGreetingLabel = mock(JLabel.class);
         when(homeView.getGreetingLabel()).thenReturn(mockGreetingLabel);
         when(mockGreetingLabel.getText()).thenReturn("Hi John!");

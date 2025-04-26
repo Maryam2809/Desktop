@@ -27,11 +27,10 @@ class AnalyticsPageViewTest extends BaseTest {
     @Test
     void testGetRecentExpenseText() {
         List<Expense> mockExpenses = Arrays.asList(
-                mock(Expense.class), // Mock expense
-                mock(Expense.class)  // Mock another expense
+                mock(Expense.class),
+                mock(Expense.class)
         );
 
-        // Setting up mocks for expense properties
         when(mockExpenses.get(0).getDate()).thenReturn("2025-04-20");
         when(mockExpenses.get(1).getDate()).thenReturn("2025-04-21");
         when(mockExpenses.get(0).getAmount()).thenReturn(10.50);
