@@ -1,5 +1,6 @@
 package com.finance.view;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
@@ -14,6 +15,13 @@ import java.awt.event.ActionListener;
 
 public class InputPageViewTest extends BaseTest{
     private InputPageView inputPageView;
+
+    @BeforeAll
+    static void checkHeadless() {
+        if (GraphicsEnvironment.isHeadless()) {
+            System.out.println("Headless environment detected, skipping tests");
+        }
+    }
 
     @BeforeEach
     public void setUp() {

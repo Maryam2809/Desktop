@@ -16,7 +16,9 @@ public class LoginViewTest extends BaseTest{
 
     @BeforeAll
     static void checkHeadless() {
-        Assumptions.assumeFalse(GraphicsEnvironment.isHeadless(), "Headless environment detected, skipping tests");
+        if (GraphicsEnvironment.isHeadless()) {
+            System.out.println("Headless environment detected, skipping tests");
+        }
     }
 
     @BeforeEach

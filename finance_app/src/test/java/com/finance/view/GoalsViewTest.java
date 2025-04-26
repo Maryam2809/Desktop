@@ -1,4 +1,5 @@
 package com.finance.view;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GoalsViewTest extends BaseTest{
     private GoalsView goalsView;
+
+    @BeforeAll
+    static void checkHeadless() {
+        if (GraphicsEnvironment.isHeadless()) {
+            System.out.println("Headless environment detected, skipping tests");
+        }
+    }
 
     @BeforeEach
     public void setUp() {
