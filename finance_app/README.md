@@ -8,25 +8,25 @@ Before you begin, make sure you have the following installed on your Mac:
 ### 1. Docker Desktop
    Download and install: https://www.docker.com/products/docker-desktop
 
-      ## Windows
+   ## Windows
       
-         ### 2. VcXsrv (X11 Server for Windows)
-         Download: VcXsrv
-         
-         After installation:
-         
-         Launch VcXsrv with the following settings:
-         
-         Disable access control (to allow Docker containers to connect).
-         
-         Set the display number to 0.
-         
-         Keep VcXsrv running in the background.
+   ### 2. VcXsrv (X11 Server for Windows)
+   Download: VcXsrv
+   
+   After installation:
+   
+   Launch VcXsrv with the following settings:
+   
+   Disable access control (to allow Docker containers to connect).
+   
+   Set the display number to 0.
+   
+   Keep VcXsrv running in the background.
 
-      ## macOs 
+   ## macOs 
 
-         ### 2. XQuartz (X11 Server for macOS)
-            Download: https://www.xquartz.org
+   ### 2. XQuartz (X11 Server for macOS)
+   Download: https://www.xquartz.org
 
 **After installation:**
 
@@ -60,8 +60,8 @@ Check: "Allow connections from network clients"
    ### Step 1: Clone the Repo
    git clone https://github.com/yourusername/finance_app.git
 
-   ### Step 2: Install and Start VcXsrv
-   Download and install VcXsrv. Then, launch it with the following settings:
+   ### Step 2: Start VcXsrv
+   Launch it with the following settings:
    
    Disable access control (to allow Docker containers to connect)
    
