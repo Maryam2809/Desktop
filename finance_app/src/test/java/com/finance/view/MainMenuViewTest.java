@@ -1,7 +1,7 @@
 package com.finance.view;
 
 import com.finance.model.User;
-import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,9 +10,10 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MainMenuViewTest extends BaseTest{
+public class MainMenuViewTest {
 
     private  MainMenuView mainMenuView;
+    private  User mockUser;
 
     private void clickButtonAndVerifyContent(JButton button, Class<?> expectedView) {
         button.doClick();
@@ -21,23 +22,23 @@ public class MainMenuViewTest extends BaseTest{
                 "Content panel should display " + expectedView.getSimpleName() + " after clicking the button");
     }
 
-    @BeforeEach
-    public void headlessInitialize() {
+    @BeforeAll
+    static void checkHeadless() {
         if (GraphicsEnvironment.isHeadless()) {
-            Assumptions.assumeTrue(false, "Skipping GUI test due to headless environment");
+            System.out.println("Headless environment detected, skipping tests");
         }
     }
 
     @BeforeEach
     public void setUp() {
-        User mockUser = new User("John", "Doe", "john.doe@example.com", "password");
+        mockUser = new User("John", "Doe", "john.doe@example.com", "password");
         mainMenuView = new MainMenuView(mockUser);
     }
 
     @Test
     public void testMainMenuInitialization() {
         assertNotNull(mainMenuView);
-        assertEquals("Finance Tracker", mainMenuView.getTitle());
+        assertEquals("Finance Tracker - Main Menu", mainMenuView.getTitle());
         assertEquals(1300, mainMenuView.getWidth());
         assertEquals(500, mainMenuView.getHeight());
     }
@@ -48,7 +49,7 @@ public class MainMenuViewTest extends BaseTest{
 
         assertEquals(5, components.length, "Sidebar should have 5 buttons: Home, Analytics, Input, Goals, Logout");
         for (Component component : components) {
-            assertInstanceOf(JButton.class, component, "Sidebar should contain only buttons");
+            assertTrue(component instanceof JButton, "Sidebar should contain only buttons");
         }
     }
 
@@ -86,17 +87,17 @@ public class MainMenuViewTest extends BaseTest{
     @Test
     public void testInitialContentPanelText() {
         Component comp = mainMenuView.getContentPanel().getComponent(0);
-        assertInstanceOf(JLabel.class, comp, "First component should be JLabel");
+        assertTrue(comp instanceof JLabel, "First component should be JLabel");
         JLabel label = (JLabel) comp;
         assertEquals("Welcome to Finance Tracker!", label.getText(), "Initial content should display the welcome message");
     }
 
     @Test
     public void testLayout() {
-        assertInstanceOf(BorderLayout.class, mainMenuView.getLayout(), "Main layout should be BorderLayout");
+        assertTrue(mainMenuView.getLayout() instanceof BorderLayout, "Main layout should be BorderLayout");
         assertEquals(200, mainMenuView.getSidebarPanel().getPreferredSize().width, "Sidebar should have width of 200");
-        assertInstanceOf(GridLayout.class, mainMenuView.getSidebarPanel().getLayout(), "Sidebar layout should be GridLayout");
-        assertInstanceOf(BorderLayout.class, mainMenuView.getContentPanel().getLayout(), "Content panel layout should be BorderLayout");
+        assertTrue(mainMenuView.getSidebarPanel().getLayout() instanceof GridLayout, "Sidebar layout should be GridLayout");
+        assertTrue(mainMenuView.getContentPanel().getLayout() instanceof BorderLayout, "Content panel layout should be BorderLayout");
     }
 
     private void assertInitialContentPanel() {

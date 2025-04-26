@@ -2,13 +2,14 @@ package com.finance.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegisterView extends JFrame {
+import com.finance.controller.UserController;
+import com.finance.model.User;
 
-    private JTextField firstNameField;
-    private JTextField lastNameField;
-    private JTextField emailField;
+public class RegisterView extends JFrame {
+    private JTextField firstNameField, lastNameField, emailField;
     private JPasswordField passwordField;
     private JButton registerButton;
 
@@ -17,29 +18,53 @@ public class RegisterView extends JFrame {
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-    }
 
-    public void initializeUI() {
-        setLayout(new GridLayout(5, 2));
-
-        firstNameField = new JTextField();
-        lastNameField = new JTextField();
-        emailField = new JTextField();
-        passwordField = new JPasswordField();
+        firstNameField = new JTextField(20);
+        lastNameField = new JTextField(20);
+        emailField = new JTextField(20);
+        passwordField = new JPasswordField(20);
         registerButton = new JButton("Register");
 
-        add(new JLabel("First Name:"));
-        add(firstNameField);
-        add(new JLabel("Last Name:"));
-        add(lastNameField);
-        add(new JLabel("Email:"));
-        add(emailField);
-        add(new JLabel("Password:"));
-        add(passwordField);
-        add(new JLabel());
-        add(registerButton);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 2));
+        panel.add(new JLabel("First Name:"));
+        panel.add(firstNameField);
+        panel.add(new JLabel("Last Name:"));
+        panel.add(lastNameField);
+        panel.add(new JLabel("Email:"));
+        panel.add(emailField);
+        panel.add(new JLabel("Password:"));
+        panel.add(passwordField);
+        panel.add(new JLabel());
+        panel.add(registerButton);
 
-        setVisible(true);
+        add(panel);
+
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleRegister();
+            }
+        });
+    }
+
+    private void handleRegister() {
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String email = emailField.getText();
+        String password = new String(passwordField.getPassword());
+
+        User user = new User(firstName, lastName, email, password);
+        UserController userController = new UserController();
+        boolean success = userController.registerUser(user);
+
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Registration Successful!");
+            dispose();
+            new MainMenuView(user).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Registration Failed! Please try again.");
+        }
     }
 
     public JTextField getFirstNameField() {
@@ -62,7 +87,4 @@ public class RegisterView extends JFrame {
         return registerButton;
     }
 
-    public void addRegisterButtonActionListener(ActionListener listener) {
-        registerButton.addActionListener(listener);
-    }
 }
