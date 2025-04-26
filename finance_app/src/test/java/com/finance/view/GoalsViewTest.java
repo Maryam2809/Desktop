@@ -2,10 +2,14 @@ package com.finance.view;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import static org.junit.jupiter.api.Assertions.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class GoalsViewTest extends BaseTest {
     private GoalsView goalsView;
 

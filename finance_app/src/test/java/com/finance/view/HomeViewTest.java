@@ -3,9 +3,13 @@ package com.finance.view;
 import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
+
 import static org.junit.jupiter.api.Assertions.*;
 import javax.swing.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HomeViewTest extends BaseTest {
     private HomeView homeView;
 
