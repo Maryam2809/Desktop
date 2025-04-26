@@ -10,7 +10,7 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MainMenuViewTest {
+public class MainMenuViewTest extends BaseTest{
 
     private  MainMenuView mainMenuView;
     private  User mockUser;

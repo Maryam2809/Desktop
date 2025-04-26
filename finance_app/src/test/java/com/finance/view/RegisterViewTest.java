@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RegisterViewTest {
+public class RegisterViewTest extends BaseTest{
     private RegisterView registerView;
 
     @BeforeAll

@@ -1,39 +1,28 @@
 package com.finance.view;
 
 import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import javax.swing.*;
-
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;
 
-public class LoginViewTest extends BaseTest {
+public class LoginViewTest extends BaseTest{
     LoginView loginView;
-    JPasswordField passwordField;
-    JTextField emailField;
-    JButton loginButton;
 
-    @BeforeEach
-    public void headlessInitialize() {
-        if (GraphicsEnvironment.isHeadless()) {
-            Assumptions.assumeTrue(false, "Skipping GUI test due to headless environment");
-        }
+    @BeforeAll
+    static void checkHeadless() {
+        Assumptions.assumeFalse(GraphicsEnvironment.isHeadless(), "Headless environment detected, skipping tests");
     }
 
     @BeforeEach
     public void setUp() {
-        loginView = spy(new LoginView());
-
-        doNothing().when(loginView).setVisible(anyBoolean());
-        doNothing().when(loginView).pack();
-        doNothing().when(loginView).setDefaultCloseOperation(anyInt());
+        loginView = new LoginView();
     }
-
 
     @Test
     void testComponentsInitialization() {
@@ -43,20 +32,33 @@ public class LoginViewTest extends BaseTest {
     }
 
     @Test
+    public void testTitle() {
+        String title = loginView.getTitle();
+        assertEquals("Login", title);
+    }
+
+    @Test
     public void testLoginButton() {
-        loginButton = loginView.getLoginButton();
+        JButton loginButton = loginView.getLoginButton();
         assertEquals("Login", loginButton.getText());
     }
 
     @Test
-    public void testEmailField() {
-        emailField = loginView.getEmailField();
+    public void testEmailField(){
+        JTextField emailField= loginView.getEmailField();
         assertEquals(20, emailField.getColumns());
     }
 
     @Test
     public void testPasswordField() {
-        passwordField = loginView.getPasswordField();
+        JPasswordField passwordField = loginView.getPasswordField();
         assertEquals(20, passwordField.getColumns());
+    }
+
+    @Test
+    public void testLoginButtonActionListener() {
+        JButton loginButton = loginView.getLoginButton();
+        ActionListener[] listeners = loginButton.getActionListeners();
+        assertEquals(1, listeners.length);
     }
 }
