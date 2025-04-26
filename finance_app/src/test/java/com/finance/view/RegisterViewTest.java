@@ -4,20 +4,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class RegisterViewTest extends BaseTest{
     private RegisterView registerView;
-
-    @BeforeAll
-    static void checkHeadless() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.out.println("Headless environment detected, skipping tests");
-        }
-    }
 
     @BeforeEach
     public void setup() {

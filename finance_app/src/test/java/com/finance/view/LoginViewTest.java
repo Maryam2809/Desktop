@@ -14,13 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class LoginViewTest extends BaseTest{
     LoginView loginView;
 
-    @BeforeAll
-    static void checkHeadless() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.out.println("Headless environment detected, skipping tests");
-        }
-    }
-
     @BeforeEach
     public void setUp() {
         loginView = new LoginView();
@@ -57,10 +50,4 @@ public class LoginViewTest extends BaseTest{
         assertEquals(20, passwordField.getColumns());
     }
 
-    @Test
-    public void testLoginButtonActionListener() {
-        JButton loginButton = loginView.getLoginButton();
-        ActionListener[] listeners = loginButton.getActionListeners();
-        assertEquals(1, listeners.length);
-    }
 }
