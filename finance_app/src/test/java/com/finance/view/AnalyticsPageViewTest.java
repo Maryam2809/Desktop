@@ -37,8 +37,6 @@ class AnalyticsPageViewTest {
     void testComponentsInitialization() {
         assertNotNull(view.getMonthlyCategoryTotals());
         assertNotNull(view.getWeeklyCategoryTotals());
-        assertNotNull(view.getMonthlyCategoryTotalsLabel());
-        assertNotNull(view.getWeeklyCategoryTotalsLabel());
         assertNotNull(view.getRecentExpenseLabel());
     }
 

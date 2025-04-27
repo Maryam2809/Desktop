@@ -29,9 +29,8 @@ class HomeControllerTest {
     @Test
     void testAddNotification() {
         String message = "Welcome back!";
-        List<String> messages = Arrays.asList(message);
+        List<String> messages = List.of(message);
 
-        // Setup mock behavior
         when(mockNotification.getMessages()).thenReturn(messages);
 
         homeController.addNotification(message);
@@ -44,8 +43,6 @@ class HomeControllerTest {
     @Test
     void testShowHomePage() {
         List<String> messages = Arrays.asList("First Notification", "Second Notification");
-
-        // Setup mock behavior
         when(mockNotification.getMessages()).thenReturn(messages);
 
         homeController.showHomePage();

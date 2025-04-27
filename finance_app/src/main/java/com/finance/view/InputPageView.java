@@ -2,7 +2,6 @@ package com.finance.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import com.finance.dao.FinanceDAO;
 import com.finance.model.Expense;
 import java.util.List;
@@ -70,27 +69,12 @@ public class InputPageView extends JPanel {
 
         add(filterPanel, BorderLayout.SOUTH);
 
-        filterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateExpenseListWithFilters();
-            }
-        });
+        filterButton.addActionListener(e -> updateExpenseListWithFilters());
 
 
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addExpense();
-            }
-        });
+        addButton.addActionListener(e -> addExpense());
 
-        removeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                removeExpense();
-            }
-        });
+        removeButton.addActionListener(e -> removeExpense());
 
         updateExpenseList();
     }
@@ -180,8 +164,4 @@ public class InputPageView extends JPanel {
     public JComboBox<String> getTypeDropdown() {
         return typeDropdown;
     }
-    public JTextArea getExpenseListArea() {
-        return expenseListArea;
-    }
-
 }
