@@ -111,14 +111,6 @@ public class GoalsView extends JPanel {
         }
     }
 
-    public Object getGoalInputField() {
-        return goalNameField;
-    }
-
-    public Object getGoalList() {
-        return goalsList;
-    }
-
     public JButton getAddGoalButton() {
         return addGoalButton;
     }

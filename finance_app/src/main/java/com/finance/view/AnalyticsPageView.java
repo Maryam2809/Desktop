@@ -145,25 +145,6 @@ public class AnalyticsPageView extends JPanel {
         this.expenseSummary = builder.toString();
     }
 
-    public Map<String, Double> getMonthlyCategoryTotals() {
-        return monthlyCategoryTotals;
-    }
-
-    public Map<String, Double> getWeeklyCategoryTotals() {
-        return weeklyCategoryTotals;
-    }
-
-    public JLabel getMonthlyCategoryTotalsLabel() {
-        return monthlyCategoryTotalsLabel;
-    }
-
-    public JLabel getWeeklyCategoryTotalsLabel() {
-        return weeklyCategoryTotalsLabel;
-    }
-
-    public JLabel getRecentExpenseLabel() {
-        return recentExpenseLabel;
-    }
     public String getExpenseSummary() {
         return expenseSummary;
     }
