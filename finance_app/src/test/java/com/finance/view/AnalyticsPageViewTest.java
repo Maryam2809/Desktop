@@ -1,15 +1,11 @@
 package com.finance.view;
 
 import com.finance.model.Expense;
-import com.finance.model.User;
-import org.jfree.chart.ChartPanel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

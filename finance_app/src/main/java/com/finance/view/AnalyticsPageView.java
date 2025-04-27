@@ -16,20 +16,21 @@ import java.util.*;
 import java.util.List;
 
 public class AnalyticsPageView extends JPanel {
+    private final FinanceDAO financeDAO;
     private String expenseSummary;
 
     private Map<String, Double> monthlyCategoryTotals;
     private Map<String, Double> weeklyCategoryTotals;
+
     private JLabel monthlyCategoryTotalsLabel;
     private JLabel weeklyCategoryTotalsLabel;
-
     private JLabel recentExpenseLabel;
 
     public AnalyticsPageView() {
         setLayout(new BorderLayout());
         setVisible(true);
 
-        FinanceDAO financeDAO = new FinanceDAO();
+        financeDAO = new FinanceDAO();
 
         List<Expense> allExpenses = financeDAO.getAllExpenses();
         List<Expense> recentExpenses = financeDAO.getRecentExpenses();
@@ -92,7 +93,7 @@ public class AnalyticsPageView extends JPanel {
 
         ChartPanel weeklyPanel = new ChartPanel(createPieChart("Weekly Expense Breakdown", weeklyDataset));
         ChartPanel monthlyPanel = new ChartPanel(createPieChart("Monthly Expense Breakdown", monthlyDataset));
-        ChartPanel linePanel = new ChartPanel(createLineChart(lineDataset));
+        ChartPanel linePanel = new ChartPanel(createLineChart("Weeks Expenses", "Date", "Amount (£)", lineDataset));
         JPanel recentPanel = createRecentTransactionsPanel(recentExpenses);
 
         monthlyCategoryTotalsLabel = new JLabel("Monthly Totals: " + monthlyCategoryTotals.toString());
@@ -121,8 +122,8 @@ public class AnalyticsPageView extends JPanel {
         return ChartFactory.createPieChart(title, dataset, true, true, false);
     }
 
-    private JFreeChart createLineChart(DefaultCategoryDataset dataset) {
-        return ChartFactory.createLineChart("Weeks Expenses", "Date", "Amount (£)", dataset);
+    private JFreeChart createLineChart(String title, String categoryAxisLabel, String valueAxisLabel, DefaultCategoryDataset dataset) {
+        return ChartFactory.createLineChart(title, categoryAxisLabel, valueAxisLabel, dataset);
     }
 
     private JPanel createRecentTransactionsPanel(List<Expense> recentExpenses) {
