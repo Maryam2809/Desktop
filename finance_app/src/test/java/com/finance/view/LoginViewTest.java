@@ -9,7 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class LoginViewTest extends BaseTest{
-    /*LoginView loginView;
+    LoginView loginView;
+    JPasswordField passwordField;
+    JTextField emailField;
+    JButton loginButton;
+
 
     @BeforeEach
     public void setUp() {
@@ -31,20 +35,19 @@ public class LoginViewTest extends BaseTest{
 
     @Test
     public void testLoginButton() {
-        JButton loginButton = loginView.getLoginButton();
+        loginButton = loginView.getLoginButton();
         assertEquals("Login", loginButton.getText());
     }
 
     @Test
     public void testEmailField(){
-        JTextField emailField= loginView.getEmailField();
+        emailField= loginView.getEmailField();
         assertEquals(20, emailField.getColumns());
     }
 
     @Test
     public void testPasswordField() {
-        JPasswordField passwordField = loginView.getPasswordField();
+        passwordField = loginView.getPasswordField();
         assertEquals(20, passwordField.getColumns());
     }
-*/
 }
