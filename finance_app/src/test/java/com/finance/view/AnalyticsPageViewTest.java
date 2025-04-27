@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AnalyticsPageViewTest extends BaseTest{
+class AnalyticsPageViewTest {
     private AnalyticsPageView view;
 
     @BeforeAll
@@ -35,8 +35,6 @@ class AnalyticsPageViewTest extends BaseTest{
 
     @Test
     void testComponentsInitialization() {
-        AnalyticsPageView view = new AnalyticsPageView();
-
         assertNotNull(view.getMonthlyCategoryTotals());
         assertNotNull(view.getWeeklyCategoryTotals());
         assertNotNull(view.getMonthlyCategoryTotalsLabel());
@@ -46,7 +44,6 @@ class AnalyticsPageViewTest extends BaseTest{
 
     @Test
     void testGetRecentExpenseText() {
-        AnalyticsPageView view = new AnalyticsPageView();
         List<Expense> mockExpenses = Arrays.asList(
                 new Expense("Lunch", 10.50, "Food", "2025-04-20", "Expense"),
                 new Expense("Shirt", 25.00, "Clothes", "2025-04-21", "Expense")
@@ -63,4 +60,5 @@ class AnalyticsPageViewTest extends BaseTest{
         assertTrue(summary.contains("(Food)"));
         assertTrue(summary.contains("(Clothes)"));
     }
+
 }
