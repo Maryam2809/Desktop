@@ -1,10 +1,13 @@
 package com.finance.view;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
+
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -16,21 +19,22 @@ public class LoginViewTest extends BaseTest {
     JTextField emailField;
     JButton loginButton;
 
-    @BeforeAll
-    public static void setUpHeadless() {
-        System.setProperty("java.awt.headless", "true");
+    @BeforeEach
+    public void headlessInitialize() {
+        if (GraphicsEnvironment.isHeadless()) {
+            Assumptions.assumeTrue(false, "Skipping GUI test due to headless environment");
+        }
     }
 
     @BeforeEach
     public void setUp() {
-        // Create a spy of LoginView
         loginView = spy(new LoginView());
 
-        // Stub out GUI-related methods
         doNothing().when(loginView).setVisible(anyBoolean());
         doNothing().when(loginView).pack();
         doNothing().when(loginView).setDefaultCloseOperation(anyInt());
     }
+
 
     @Test
     void testComponentsInitialization() {

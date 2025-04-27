@@ -1,7 +1,10 @@
 package com.finance.view;
 
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
 import java.awt.event.ActionListener;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,6 +16,13 @@ public class RegisterViewTest extends BaseTest {
     public void setup() {
         registerView = new RegisterView();
         registerView.initializeUI();
+    }
+
+    @BeforeEach
+    public void headlessInitialize() {
+        if (GraphicsEnvironment.isHeadless()) {
+            Assumptions.assumeTrue(false, "Skipping GUI test due to headless environment");
+        }
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.finance.view;
 
 import com.finance.model.User;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,10 @@ public class MainMenuViewTest extends BaseTest{
                 "Content panel should display " + expectedView.getSimpleName() + " after clicking the button");
     }
 
-    @BeforeAll
-    static void checkHeadless() {
+    @BeforeEach
+    public void headlessInitialize() {
         if (GraphicsEnvironment.isHeadless()) {
-            System.out.println("Headless environment detected, skipping tests");
+            Assumptions.assumeTrue(false, "Skipping GUI test due to headless environment");
         }
     }
 
