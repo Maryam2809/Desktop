@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GoalsViewTest extends BaseTest{
+public class GoalsViewTest{
     private GoalsView goalsView;
 
     @BeforeEach

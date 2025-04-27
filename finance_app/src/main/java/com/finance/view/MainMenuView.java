@@ -2,17 +2,17 @@ package com.finance.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
-import java.util.Arrays;
 
-import com.finance.config.DatabaseConfig;
+import com.finance.AppLauncher;
 import com.finance.model.User;
 
 public class MainMenuView extends JFrame {
     private JPanel sidebarPanel;
     private JPanel contentPanel;
-    private JButton homeButton, analyticsButton, inputButton, goalsButton, logoutButton;
-
+    private JButton homeButton;
+    private JButton analyticsButton;
+    private JButton inputButton;
+    private JButton goalsButton;
     private final User user;
 
     public MainMenuView(User user) {
@@ -23,7 +23,6 @@ public class MainMenuView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        setAlwaysOnTop(true);
 
         sidebarPanel = new JPanel();
         sidebarPanel.setLayout(new GridLayout(5, 1));
@@ -34,7 +33,7 @@ public class MainMenuView extends JFrame {
         analyticsButton = createSidebarButton("Analytics");
         inputButton = createSidebarButton("Input");
         goalsButton = createSidebarButton("Goals");
-        logoutButton = createSidebarButton("Logout");
+        JButton logoutButton = createSidebarButton("Logout");
 
         sidebarPanel.add(homeButton);
         sidebarPanel.add(analyticsButton);
@@ -44,26 +43,21 @@ public class MainMenuView extends JFrame {
 
         contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout());
-        showPanel("Welcome to Finance Tracker!");
+        showPanel();
 
         add(sidebarPanel, BorderLayout.WEST);
         add(contentPanel, BorderLayout.CENTER);
 
         homeButton.addActionListener(e -> {
-            List<String> notifications = Arrays.asList(
-                    "Budget report ready",
-                    "Check your goals",
-                    "New update available"
-            );
-            updateSelection(homeButton, new HomeView(user, notifications));
+            updateSelection(homeButton, ViewFactory.getView("Home", user));
         });
 
-        analyticsButton.addActionListener(e -> updateSelection(analyticsButton, new AnalyticsPageView()));
-        inputButton.addActionListener(e -> updateSelection(inputButton, new InputPageView()));
-        goalsButton.addActionListener(e -> updateSelection(goalsButton, new GoalsView()));
+        analyticsButton.addActionListener(e -> updateSelection(analyticsButton, ViewFactory.getView("Analytics", user)));
+        inputButton.addActionListener(e -> updateSelection(inputButton, ViewFactory.getView("Input", user)));
+        goalsButton.addActionListener(e -> updateSelection(goalsButton, ViewFactory.getView("Goals", user)));
         logoutButton.addActionListener(e -> {
             dispose();
-            new com.finance.AppLauncher().main(null);
+            AppLauncher.main(null);
         });
 
         setVisible(true);
@@ -93,33 +87,12 @@ public class MainMenuView extends JFrame {
         contentPanel.repaint();
     }
 
-    private void showPanel(String text) {
+    private void showPanel() {
         contentPanel.removeAll();
-        JLabel label = new JLabel(text, SwingConstants.CENTER);
+        JLabel label = new JLabel("Welcome to Finance Tracker!", SwingConstants.CENTER);
         label.setFont(new Font("Arial", Font.BOLD, 18));
         contentPanel.add(label, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-    public JPanel getSidebarPanel() {
-        return sidebarPanel;
-    }
-
-    public JPanel getContentPanel() {
-        return contentPanel;
-    }
-
-    public JButton getAnalyticsButton() {
-        return analyticsButton;
-    }
-    public JButton getHomeButton() {
-        return homeButton;
-    }
-    public JButton getInputButton() {
-        return inputButton;
-    }
-    public JButton getGoalsButton() {
-        return goalsButton;
-    }
-
 }
