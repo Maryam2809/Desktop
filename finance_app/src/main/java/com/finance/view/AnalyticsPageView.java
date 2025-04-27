@@ -19,11 +19,6 @@ public class AnalyticsPageView extends JPanel {
     private final FinanceDAO financeDAO;
     private String expenseSummary;
 
-    private Map<String, Double> monthlyCategoryTotals;
-    private Map<String, Double> weeklyCategoryTotals;
-
-    private JLabel monthlyCategoryTotalsLabel;
-    private JLabel weeklyCategoryTotalsLabel;
     private JLabel recentExpenseLabel;
 
     public AnalyticsPageView() {
@@ -45,7 +40,7 @@ public class AnalyticsPageView extends JPanel {
     }
 
     private DefaultPieDataset createWeeklyDataset(List<Expense> expenses) {
-        weeklyCategoryTotals = new HashMap<>();
+        Map<String, Double> weeklyCategoryTotals = new HashMap<>();
         LocalDate now = LocalDate.now();
 
         for (Expense expense : expenses) {
@@ -61,7 +56,7 @@ public class AnalyticsPageView extends JPanel {
     }
 
     private DefaultPieDataset createMonthlyDataset(List<Expense> expenses) {
-        monthlyCategoryTotals = new HashMap<>();
+        Map<String, Double> monthlyCategoryTotals = new HashMap<>();
         LocalDate now = LocalDate.now();
 
         for (Expense expense : expenses) {
@@ -93,27 +88,15 @@ public class AnalyticsPageView extends JPanel {
 
         ChartPanel weeklyPanel = new ChartPanel(createPieChart("Weekly Expense Breakdown", weeklyDataset));
         ChartPanel monthlyPanel = new ChartPanel(createPieChart("Monthly Expense Breakdown", monthlyDataset));
-        ChartPanel linePanel = new ChartPanel(createLineChart("Weeks Expenses", "Date", "Amount (£)", lineDataset));
+        ChartPanel linePanel = new ChartPanel(createLineChart("Weekly Expenses", "Date", "Amount (£)", lineDataset));
         JPanel recentPanel = createRecentTransactionsPanel(recentExpenses);
 
-        monthlyCategoryTotalsLabel = new JLabel("Monthly Totals: " + monthlyCategoryTotals.toString());
-        weeklyCategoryTotalsLabel = new JLabel("Weekly Totals: " + weeklyCategoryTotals.toString());
-
-        JPanel labelsPanel = new JPanel(new GridLayout(3, 1));
-        labelsPanel.add(monthlyCategoryTotalsLabel);
-        labelsPanel.add(weeklyCategoryTotalsLabel);
-        labelsPanel.add(recentExpenseLabel);
-
-        weeklyPanel.setPreferredSize(new Dimension(600, 300));
-        monthlyPanel.setPreferredSize(new Dimension(600, 300));
-        linePanel.setPreferredSize(new Dimension(1200, 300));
-        recentPanel.setPreferredSize(new Dimension(1200, 200));
-
+        // Remove monthly and weekly totals labels since we are focusing on recent expenses
         JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
         panel.add(weeklyPanel);
         panel.add(monthlyPanel);
         panel.add(linePanel);
-        panel.add(labelsPanel);
+        panel.add(recentPanel);
 
         return panel;
     }
@@ -129,7 +112,8 @@ public class AnalyticsPageView extends JPanel {
     private JPanel createRecentTransactionsPanel(List<Expense> recentExpenses) {
         getRecentExpenseText(recentExpenses);
 
-        recentExpenseLabel = new JLabel("<html>" + expenseSummary.replace("\n", "<br>") + "</html>");
+        // Create heading for recent expenses
+        recentExpenseLabel = new JLabel("<html><h3>Recent Expenses</h3><br>" + expenseSummary.replace("\n", "<br>") + "</html>");
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JScrollPane(recentExpenseLabel), BorderLayout.CENTER);
         return panel;
@@ -148,24 +132,4 @@ public class AnalyticsPageView extends JPanel {
     public String getExpenseSummary() {
         return expenseSummary;
     }
-    public Map<String, Double> getMonthlyCategoryTotals() {
-        return monthlyCategoryTotals;
-    }
-
-    public Map<String, Double> getWeeklyCategoryTotals() {
-        return weeklyCategoryTotals;
-    }
-
-    public JLabel getMonthlyCategoryTotalsLabel() {
-        return monthlyCategoryTotalsLabel;
-    }
-
-    public JLabel getWeeklyCategoryTotalsLabel() {
-        return weeklyCategoryTotalsLabel;
-    }
-
-    public JLabel getRecentExpenseLabel() {
-        return recentExpenseLabel;
-    }
 }
-
