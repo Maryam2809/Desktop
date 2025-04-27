@@ -1,4 +1,5 @@
 package com.finance.view;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +9,8 @@ import java.awt.event.ActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GoalsViewTest extends BaseTest{
+public class GoalsViewTest {
+
     private GoalsView goalsView;
 
     @BeforeEach
@@ -23,19 +25,16 @@ public class GoalsViewTest extends BaseTest{
         assertTrue(goalsView.isFocusable(), "GoalsView should be focusable");
     }
 
-     @Test
-     public void testGoalsViewInitialization() {
-         GoalsView goalsView = new GoalsView();
-         assertNotNull(goalsView);
-         assertNotNull(goalsView.getGoalInputField());
-         assertNotNull(goalsView.getAddGoalButton());
-         assertNotNull(goalsView.getRemoveGoalButton());
-         assertNotNull(goalsView.getGoalList());
-     }
+    @Test
+    public void testGoalsViewInitialization() {
+        assertNotNull(goalsView.getGoalInputField(), "Goal input field should be initialized");
+        assertNotNull(goalsView.getAddGoalButton(), "Add goal button should be initialized");
+        assertNotNull(goalsView.getRemoveGoalButton(), "Remove goal button should be initialized");
+        assertNotNull(goalsView.getGoalList(), "Goal list should be initialized");
+    }
 
     @Test
     public void testLayout() {
-        GoalsView goalsView = new GoalsView();
         assertInstanceOf(BorderLayout.class, goalsView.getLayout(), "Layout should be BorderLayout");
 
         BorderLayout layout = (BorderLayout) goalsView.getLayout();
@@ -48,6 +47,7 @@ public class GoalsViewTest extends BaseTest{
         assertNotNull(center, "Goals list (CENTER) should not be null");
         assertNotNull(south, "Input panel (SOUTH) should not be null");
 
+
         assertInstanceOf(JLabel.class, north, "North component should be a JLabel (Title)");
         assertInstanceOf(JScrollPane.class, center, "Center component should be a JScrollPane (for goals list)");
         assertInstanceOf(JPanel.class, south, "South component should be a JPanel (for inputs and buttons)");
@@ -55,17 +55,43 @@ public class GoalsViewTest extends BaseTest{
 
     @Test
     public void testAddButtonActionListener() {
-        GoalsView goalsView = new GoalsView();
         JButton addButton = goalsView.getAddGoalButton();
         ActionListener[] listeners = addButton.getActionListeners();
-        assertEquals(1, listeners.length);
+        assertEquals(1, listeners.length, "Add Goal button should have exactly one action listener");
     }
 
     @Test
     public void testRemoveButtonActionListener() {
-        GoalsView goalsView = new GoalsView();
         JButton removeButton = goalsView.getRemoveGoalButton();
         ActionListener[] listeners = removeButton.getActionListeners();
-        assertEquals(1, listeners.length);
+        assertEquals(1, listeners.length, "Remove Goal button should have exactly one action listener");
+    }
+
+    @Test
+    public void testAddGoalIncompleteFields() {
+        goalsView.getGoalInputField().setText("");
+        goalsView.getAddGoalButton().doClick();
+
+    }
+
+    @Test
+    public void testAddGoalInvalidNumber() {
+        goalsView.getGoalInputField().setText("New Goal");
+        goalsView.getAddGoalButton().doClick();
+
+    }
+
+
+    @Test
+    public void testRemoveGoal() {
+        String goalName = "Save for vacation";
+        DefaultListModel<String> model = (DefaultListModel<String>) goalsView.getGoalList().getModel();
+        model.addElement(goalName);
+
+
+        goalsView.getGoalList().setSelectedIndex(0);
+        goalsView.getRemoveGoalButton().doClick();
+
+        assertFalse(model.contains(goalName), "The removed goal should no longer be in the list");
     }
 }

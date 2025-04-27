@@ -68,6 +68,7 @@ public class GoalsView extends JPanel {
         });
     }
 
+    // Method to refresh the goals list from the GoalsController
     private void refreshGoalsList() {
         goalsListModel.clear();
         List<Goal> goals = goalsController.getAllGoals();
@@ -76,6 +77,7 @@ public class GoalsView extends JPanel {
         }
     }
 
+    // Method to add a new goal
     private void addGoal() {
         String name = goalNameField.getText();
         String limitText = spendingLimitField.getText();
@@ -97,6 +99,7 @@ public class GoalsView extends JPanel {
         }
     }
 
+    // Method to remove the selected goal from the list
     private void removeGoal() {
         int selectedIndex = goalsList.getSelectedIndex();
         if (selectedIndex != -1) {
@@ -111,18 +114,33 @@ public class GoalsView extends JPanel {
         }
     }
 
+    // Getter method for Add Goal button
     public JButton getAddGoalButton() {
         return addGoalButton;
     }
 
+    // Getter method for Remove Goal button
     public JButton getRemoveGoalButton() {
         return removeGoalButton;
     }
-    public Object getGoalInputField() {
+
+    // Getter method for Goal Name input field
+    public JTextField getGoalInputField() {
         return goalNameField;
     }
 
-    public Object getGoalList() {
+    // Getter method for Spending Limit input field
+    public JTextField getSpendingLimitField() {
+        return spendingLimitField;
+    }
+
+    // Getter method for Duration input field
+    public JTextField getDurationField() {
+        return durationField;
+    }
+
+    // Getter method for Goals list
+    public JList<String> getGoalList() {
         return goalsList;
     }
 }
