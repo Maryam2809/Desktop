@@ -16,10 +16,6 @@ class DatabaseConfigTest {
             testConnection = conn;
         }
 
-        public static Connection getTestConnection() {
-            return testConnection;
-        }
-
         public static void createTestTables() {
             String usersTable = "CREATE TABLE IF NOT EXISTS users ("
                     + "id INTEGER PRIMARY KEY AUTOINCREMENT, "

@@ -10,7 +10,6 @@ public class UserController {
         this.userDAO = new UserDAO();
     }
 
-    // new constructor for testing purposes
     public UserController(UserDAO userDAO) {
         this.userDAO = userDAO;
     }

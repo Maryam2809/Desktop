@@ -11,11 +11,6 @@ import java.util.List;
 public class HomeView extends JPanel {
     private JLabel greetingLabel;
     private JTextArea notificationsArea;
-
-    private JButton addExpenseBtn;
-    private JButton viewReportBtn;
-    private JButton setGoalBtn;
-
     private FinanceDAO financeDAO;
 
     public HomeView(User user, List<String> notifications) {
