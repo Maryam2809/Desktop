@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import java.lang.reflect.Field;
 
 import com.finance.controller.UserController;
 import com.finance.model.User;
 
 import javax.swing.*;
+import java.lang.reflect.Field;
 
 class LoginViewTest {
 
@@ -21,10 +21,9 @@ class LoginViewTest {
 
     @BeforeEach
     void setUp() throws NoSuchFieldException, IllegalAccessException {
+        System.setProperty("java.awt.headless", "true");
         MockitoAnnotations.openMocks(this);
-
         loginView = new LoginView();
-
         Field userControllerField = LoginView.class.getDeclaredField("userController");
         userControllerField.setAccessible(true);
         userControllerField.set(loginView, mockUserController);
@@ -34,7 +33,7 @@ class LoginViewTest {
     void testLogin_SuccessfulLogin() {
         String email = "test@example.com";
         String password = "password123";
-        User mockUser = new User("john","Doe","email","password");
+        User mockUser = new User("John", "Doe", email, password);
         when(mockUserController.loginUser(email, password)).thenReturn(mockUser);
 
         loginView.getEmailField().setText(email);
@@ -44,7 +43,6 @@ class LoginViewTest {
         loginButton.doClick();
 
         verify(mockUserController).loginUser(eq(email), eq(password));
-
     }
 
     @Test

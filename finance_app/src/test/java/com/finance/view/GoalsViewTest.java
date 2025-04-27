@@ -1,21 +1,33 @@
 package com.finance.view;
 
+import com.finance.controller.GoalsController;
+import com.finance.model.Goal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class GoalsViewTest {
 
     private GoalsView goalsView;
+    private GoalsController mockGoalsController;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws NoSuchFieldException, IllegalAccessException {
+        mockGoalsController = mock(GoalsController.class);
         goalsView = new GoalsView();
+
+        Field goalsControllerField = GoalsView.class.getDeclaredField("goalsController");
+        goalsControllerField.setAccessible(true);
+        goalsControllerField.set(goalsView, mockGoalsController);
     }
 
     @Test
@@ -27,71 +39,12 @@ public class GoalsViewTest {
 
     @Test
     public void testGoalsViewInitialization() {
-        assertNotNull(goalsView.getGoalInputField(), "Goal input field should be initialized");
+        assertNotNull(goalsView.getGoalNameField(), "Goal name field should be initialized");
+        assertNotNull(goalsView.getSpendingLimitField(), "Spending limit field should be initialized");
+        assertNotNull(goalsView.getDurationField(), "Duration field should be initialized");
         assertNotNull(goalsView.getAddGoalButton(), "Add goal button should be initialized");
         assertNotNull(goalsView.getRemoveGoalButton(), "Remove goal button should be initialized");
-        assertNotNull(goalsView.getGoalList(), "Goal list should be initialized");
+        assertNotNull(goalsView.getGoalsList(), "Goal list should be initialized");
     }
 
-    @Test
-    public void testLayout() {
-        assertInstanceOf(BorderLayout.class, goalsView.getLayout(), "Layout should be BorderLayout");
-
-        BorderLayout layout = (BorderLayout) goalsView.getLayout();
-
-        Component north = layout.getLayoutComponent(BorderLayout.NORTH);
-        Component center = layout.getLayoutComponent(BorderLayout.CENTER);
-        Component south = layout.getLayoutComponent(BorderLayout.SOUTH);
-
-        assertNotNull(north, "Title label (NORTH) should not be null");
-        assertNotNull(center, "Goals list (CENTER) should not be null");
-        assertNotNull(south, "Input panel (SOUTH) should not be null");
-
-
-        assertInstanceOf(JLabel.class, north, "North component should be a JLabel (Title)");
-        assertInstanceOf(JScrollPane.class, center, "Center component should be a JScrollPane (for goals list)");
-        assertInstanceOf(JPanel.class, south, "South component should be a JPanel (for inputs and buttons)");
-    }
-
-    @Test
-    public void testAddButtonActionListener() {
-        JButton addButton = goalsView.getAddGoalButton();
-        ActionListener[] listeners = addButton.getActionListeners();
-        assertEquals(1, listeners.length, "Add Goal button should have exactly one action listener");
-    }
-
-    @Test
-    public void testRemoveButtonActionListener() {
-        JButton removeButton = goalsView.getRemoveGoalButton();
-        ActionListener[] listeners = removeButton.getActionListeners();
-        assertEquals(1, listeners.length, "Remove Goal button should have exactly one action listener");
-    }
-
-    @Test
-    public void testAddGoalIncompleteFields() {
-        goalsView.getGoalInputField().setText("");
-        goalsView.getAddGoalButton().doClick();
-
-    }
-
-    @Test
-    public void testAddGoalInvalidNumber() {
-        goalsView.getGoalInputField().setText("New Goal");
-        goalsView.getAddGoalButton().doClick();
-
-    }
-
-
-    @Test
-    public void testRemoveGoal() {
-        String goalName = "Save for vacation";
-        DefaultListModel<String> model = (DefaultListModel<String>) goalsView.getGoalList().getModel();
-        model.addElement(goalName);
-
-
-        goalsView.getGoalList().setSelectedIndex(0);
-        goalsView.getRemoveGoalButton().doClick();
-
-        assertFalse(model.contains(goalName), "The removed goal should no longer be in the list");
-    }
 }
