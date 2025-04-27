@@ -9,6 +9,8 @@ Before you begin, make sure you have the following installed on your Mac:
    Download and install: https://www.docker.com/products/docker-desktop
 
    ## Windows
+
+   ### (Disclaimer: As the group only had MacOs users we have run the app on our laptops but this has not been tested on Windows)
       
    ### 2. VcXsrv (X11 Server for Windows)
    Download: VcXsrv
