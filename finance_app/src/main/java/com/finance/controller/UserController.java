@@ -7,7 +7,12 @@ public class UserController {
     private final UserDAO userDAO;
 
     public UserController() {
-        userDAO = new UserDAO();
+        this.userDAO = new UserDAO();
+    }
+
+    // new constructor for testing purposes
+    public UserController(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     public User loginUser(String email, String password) {
