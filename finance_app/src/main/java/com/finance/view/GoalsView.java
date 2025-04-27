@@ -118,4 +118,11 @@ public class GoalsView extends JPanel {
     public JButton getRemoveGoalButton() {
         return removeGoalButton;
     }
+    public Object getGoalInputField() {
+        return goalNameField;
+    }
+
+    public Object getGoalList() {
+        return goalsList;
+    }
 }

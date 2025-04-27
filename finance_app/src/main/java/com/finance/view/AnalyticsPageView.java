@@ -20,6 +20,8 @@ public class AnalyticsPageView extends JPanel {
 
     private Map<String, Double> monthlyCategoryTotals;
     private Map<String, Double> weeklyCategoryTotals;
+    private JLabel monthlyCategoryTotalsLabel;
+    private JLabel weeklyCategoryTotalsLabel;
 
     private JLabel recentExpenseLabel;
 
@@ -93,8 +95,8 @@ public class AnalyticsPageView extends JPanel {
         ChartPanel linePanel = new ChartPanel(createLineChart(lineDataset));
         JPanel recentPanel = createRecentTransactionsPanel(recentExpenses);
 
-        JLabel monthlyCategoryTotalsLabel = new JLabel("Monthly Totals: " + monthlyCategoryTotals.toString());
-        JLabel weeklyCategoryTotalsLabel = new JLabel("Weekly Totals: " + weeklyCategoryTotals.toString());
+        monthlyCategoryTotalsLabel = new JLabel("Monthly Totals: " + monthlyCategoryTotals.toString());
+        weeklyCategoryTotalsLabel = new JLabel("Weekly Totals: " + weeklyCategoryTotals.toString());
 
         JPanel labelsPanel = new JPanel(new GridLayout(3, 1));
         labelsPanel.add(monthlyCategoryTotalsLabel);
@@ -144,6 +146,25 @@ public class AnalyticsPageView extends JPanel {
 
     public String getExpenseSummary() {
         return expenseSummary;
+    }
+    public Map<String, Double> getMonthlyCategoryTotals() {
+        return monthlyCategoryTotals;
+    }
+
+    public Map<String, Double> getWeeklyCategoryTotals() {
+        return weeklyCategoryTotals;
+    }
+
+    public JLabel getMonthlyCategoryTotalsLabel() {
+        return monthlyCategoryTotalsLabel;
+    }
+
+    public JLabel getWeeklyCategoryTotalsLabel() {
+        return weeklyCategoryTotalsLabel;
+    }
+
+    public JLabel getRecentExpenseLabel() {
+        return recentExpenseLabel;
     }
 }
 
