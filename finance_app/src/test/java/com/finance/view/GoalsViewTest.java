@@ -1,16 +1,9 @@
 package com.finance.view;
 
 import com.finance.controller.GoalsController;
-import com.finance.model.Goal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -23,6 +16,7 @@ public class GoalsViewTest {
     @BeforeEach
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
         mockGoalsController = mock(GoalsController.class);
+
         goalsView = new GoalsView();
 
         Field goalsControllerField = GoalsView.class.getDeclaredField("goalsController");
@@ -46,5 +40,4 @@ public class GoalsViewTest {
         assertNotNull(goalsView.getRemoveGoalButton(), "Remove goal button should be initialized");
         assertNotNull(goalsView.getGoalsList(), "Goal list should be initialized");
     }
-
 }
