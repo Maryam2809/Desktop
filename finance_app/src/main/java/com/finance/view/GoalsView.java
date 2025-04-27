@@ -111,31 +111,19 @@ public class GoalsView extends JPanel {
         }
     }
 
-    public JTextField getGoalNameField() {
-        return goalNameField;
-    }
-
-    public JTextField getSpendingLimitField() {
-        return spendingLimitField;
-    }
-
-    public JTextField getDurationField() {
-        return durationField;
-    }
-
-    public DefaultListModel<String> getGoalsListModel() {
-        return goalsListModel;
-    }
-
-    public JList<String> getGoalsList() {
-        return goalsList;
-    }
-
     public JButton getAddGoalButton() {
         return addGoalButton;
     }
 
     public JButton getRemoveGoalButton() {
         return removeGoalButton;
+    }
+
+    public Object getGoalInputField() {
+        return goalNameField;
+    }
+
+    public Object getGoalList() {
+        return goalsList;
     }
 }

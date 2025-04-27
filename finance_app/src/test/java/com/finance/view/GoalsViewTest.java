@@ -1,27 +1,19 @@
 package com.finance.view;
-
-import com.finance.controller.GoalsController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.Field;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-public class GoalsViewTest {
-
+public class GoalsViewTest extends BaseTest{
     private GoalsView goalsView;
-    private GoalsController mockGoalsController;
 
     @BeforeEach
-    public void setUp() throws NoSuchFieldException, IllegalAccessException {
-        mockGoalsController = mock(GoalsController.class);
-
+    public void setUp() {
         goalsView = new GoalsView();
-
-        Field goalsControllerField = GoalsView.class.getDeclaredField("goalsController");
-        goalsControllerField.setAccessible(true);
-        goalsControllerField.set(goalsView, mockGoalsController);
     }
 
     @Test
@@ -31,13 +23,49 @@ public class GoalsViewTest {
         assertTrue(goalsView.isFocusable(), "GoalsView should be focusable");
     }
 
+     @Test
+     public void testGoalsViewInitialization() {
+         GoalsView goalsView = new GoalsView();
+         assertNotNull(goalsView);
+         assertNotNull(goalsView.getGoalInputField());
+         assertNotNull(goalsView.getAddGoalButton());
+         assertNotNull(goalsView.getRemoveGoalButton());
+         assertNotNull(goalsView.getGoalList());
+     }
+
     @Test
-    public void testGoalsViewInitialization() {
-        assertNotNull(goalsView.getGoalNameField(), "Goal name field should be initialized");
-        assertNotNull(goalsView.getSpendingLimitField(), "Spending limit field should be initialized");
-        assertNotNull(goalsView.getDurationField(), "Duration field should be initialized");
-        assertNotNull(goalsView.getAddGoalButton(), "Add goal button should be initialized");
-        assertNotNull(goalsView.getRemoveGoalButton(), "Remove goal button should be initialized");
-        assertNotNull(goalsView.getGoalsList(), "Goal list should be initialized");
+    public void testLayout() {
+        GoalsView goalsView = new GoalsView();
+        assertInstanceOf(BorderLayout.class, goalsView.getLayout(), "Layout should be BorderLayout");
+
+        BorderLayout layout = (BorderLayout) goalsView.getLayout();
+
+        Component north = layout.getLayoutComponent(BorderLayout.NORTH);
+        Component center = layout.getLayoutComponent(BorderLayout.CENTER);
+        Component south = layout.getLayoutComponent(BorderLayout.SOUTH);
+
+        assertNotNull(north, "Title label (NORTH) should not be null");
+        assertNotNull(center, "Goals list (CENTER) should not be null");
+        assertNotNull(south, "Input panel (SOUTH) should not be null");
+
+        assertInstanceOf(JLabel.class, north, "North component should be a JLabel (Title)");
+        assertInstanceOf(JScrollPane.class, center, "Center component should be a JScrollPane (for goals list)");
+        assertInstanceOf(JPanel.class, south, "South component should be a JPanel (for inputs and buttons)");
+    }
+
+    @Test
+    public void testAddButtonActionListener() {
+        GoalsView goalsView = new GoalsView();
+        JButton addButton = goalsView.getAddGoalButton();
+        ActionListener[] listeners = addButton.getActionListeners();
+        assertEquals(1, listeners.length);
+    }
+
+    @Test
+    public void testRemoveButtonActionListener() {
+        GoalsView goalsView = new GoalsView();
+        JButton removeButton = goalsView.getRemoveGoalButton();
+        ActionListener[] listeners = removeButton.getActionListeners();
+        assertEquals(1, listeners.length);
     }
 }
