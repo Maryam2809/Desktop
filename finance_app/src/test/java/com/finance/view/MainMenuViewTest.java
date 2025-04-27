@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MainMenuViewTest extends BaseTest{
 
-    /*private  MainMenuView mainMenuView;
+    private  MainMenuView mainMenuView;
     private  User mockUser;
 
     private void clickButtonAndVerifyContent(JButton button, Class<?> expectedView) {
@@ -102,7 +102,7 @@ public class MainMenuViewTest extends BaseTest{
 
     private void assertInitialContentPanel() {
         assertTrue(mainMenuView.getContentPanel().getComponentCount() > 0, "Content panel should have at least one component initially");
-    }*/
+    }
 }
 
 
