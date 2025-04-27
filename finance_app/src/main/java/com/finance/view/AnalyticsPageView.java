@@ -12,134 +12,159 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class AnalyticsPageView extends JPanel {
-    private FinanceDAO financeDAO;
-    public String expenseSummary;
+    private String expenseSummary;
+
+    private Map<String, Double> monthlyCategoryTotals;
+    private Map<String, Double> weeklyCategoryTotals;
+    private JLabel monthlyCategoryTotalsLabel;
+    private JLabel weeklyCategoryTotalsLabel;
+
+    private JLabel recentExpenseLabel;
 
     public AnalyticsPageView() {
         setLayout(new BorderLayout());
-        financeDAO = new FinanceDAO();
+        setVisible(true);
+
+        FinanceDAO financeDAO = new FinanceDAO();
 
         List<Expense> allExpenses = financeDAO.getAllExpenses();
         List<Expense> recentExpenses = financeDAO.getRecentExpenses();
 
-        DefaultPieDataset weeklyDataset = new DefaultPieDataset();
-        DefaultPieDataset monthlyDataset = new DefaultPieDataset();
-        DefaultCategoryDataset lineDataset = new DefaultCategoryDataset();
+        DefaultPieDataset weeklyDataset = createWeeklyDataset(allExpenses);
+        DefaultPieDataset monthlyDataset = createMonthlyDataset(allExpenses);
+        DefaultCategoryDataset lineDataset = createLineDataset(allExpenses);
 
-        Map<String, Double> weeklyCategoryTotals = new HashMap<>();
-        Map<String, Double> monthlyCategoryTotals = new HashMap<>();
-        Map<String, Double> weeklyCategoryTotalsDated = new TreeMap<>();
-
-        double totalWeekly = 0;
-        double totalMonthly = 0;
-        LocalDate now = LocalDate.now();
-
-        for (Expense expense : allExpenses) {
-            LocalDate expenseDate = LocalDate.parse(expense.getDate(), DateTimeFormatter.ISO_DATE);
-
-            if (expenseDate.isAfter(now.minusWeeks(1))) {
-                weeklyCategoryTotals.put(
-                        expense.getCategory(),
-                        weeklyCategoryTotals.getOrDefault(expense.getCategory(), 0.0) + expense.getAmount()
-                );
-                totalWeekly += expense.getAmount();
-            }
-
-            if (expenseDate.getMonth() == now.getMonth() && expenseDate.getYear() == now.getYear()) {
-                monthlyCategoryTotals.put(
-                        expense.getCategory(),
-                        monthlyCategoryTotals.getOrDefault(expense.getCategory(), 0.0) + expense.getAmount()
-                );
-                totalMonthly += expense.getAmount();
-            }
-
-
-            weeklyCategoryTotalsDated.put(expense.getDate(),expense.getAmount());
-        }
-
-        for (Map.Entry<String, Double> entry : weeklyCategoryTotals.entrySet()) {
-            weeklyDataset.setValue(entry.getKey(), entry.getValue());
-        }
-
-        for (Map.Entry<String, Double> entry : monthlyCategoryTotals.entrySet()) {
-            monthlyDataset.setValue(entry.getKey(), entry.getValue());
-        }
-
-        for (Map.Entry<String, Double> entry : weeklyCategoryTotalsDated.entrySet()) {
-            lineDataset.addValue(entry.getValue(), "Expenses", entry.getKey());
-        }
-
-        JFreeChart weeklyChart = ChartFactory.createPieChart(
-                "Weekly Expense Breakdown",
-                weeklyDataset,
-                true,
-                true,
-                false
-        );
-
-        JFreeChart monthlyChart = ChartFactory.createPieChart(
-                "Monthly Expense Breakdown",
-                monthlyDataset,
-                true,
-                true,
-                false
-        );
-
-        JFreeChart lineGraph = ChartFactory.createLineChart(
-                "Weeks Expenses",
-                "Date",
-                "Amount (£)",
-                lineDataset
-        );
-
-        ChartPanel weeklyPanel = new ChartPanel(weeklyChart);
-        ChartPanel monthlyPanel = new ChartPanel(monthlyChart);
-        ChartPanel linePanel = new ChartPanel(lineGraph);
-
-        getRecentExpenseText(recentExpenses);
-
-        JTextArea recentTextArea = new JTextArea(expenseSummary);
-        recentTextArea.setEditable(false);
-        recentTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
-        recentTextArea.setLineWrap(true);
-        recentTextArea.setWrapStyleWord(true);
-
-        JPanel recentPanel = new JPanel(new BorderLayout());
-        recentPanel.add(new JScrollPane(recentTextArea), BorderLayout.CENTER);
-        recentPanel.add(recentTextArea);
-
-        weeklyPanel.setPreferredSize(new Dimension(2000, 400));
-        monthlyPanel.setPreferredSize(new Dimension(2000, 400));
-        linePanel.setPreferredSize(new Dimension(2000, 400));
-        recentPanel.setPreferredSize(new Dimension(2000, 400));
-
-        JPanel chartsPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-
-        chartsPanel.add(weeklyPanel);
-        chartsPanel.add(monthlyPanel);
-        chartsPanel.add(linePanel);
-        chartsPanel.add(recentPanel);
+        JPanel chartsPanel = createChartsPanel(weeklyDataset, monthlyDataset, lineDataset, recentExpenses);
 
         add(chartsPanel, BorderLayout.CENTER);
     }
 
-    public void getRecentExpenseText (List<Expense> recentExpenses){
-        StringBuilder builder = new StringBuilder();
-        builder.append("Recent Transactions").append("\n");
-        for (Expense expense : recentExpenses){
-            String date = expense.getDate();
-            String description = expense.getDescription();
-            String amount = Double.toString(expense.getAmount());
-            builder.append(date).append(' ').append(description).append(' ').append("£").append(amount).append("\n");
+    private DefaultPieDataset createWeeklyDataset(List<Expense> expenses) {
+        weeklyCategoryTotals = new HashMap<>();
+        LocalDate now = LocalDate.now();
+
+        for (Expense expense : expenses) {
+            LocalDate expenseDate = LocalDate.parse(expense.getDate(), DateTimeFormatter.ISO_DATE);
+            if (expenseDate.isAfter(now.minusWeeks(1))) {
+                weeklyCategoryTotals.merge(expense.getCategory(), expense.getAmount(), Double::sum);
+            }
         }
-        expenseSummary = builder.toString();
+
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        weeklyCategoryTotals.forEach(dataset::setValue);
+        return dataset;
+    }
+
+    private DefaultPieDataset createMonthlyDataset(List<Expense> expenses) {
+        monthlyCategoryTotals = new HashMap<>();
+        LocalDate now = LocalDate.now();
+
+        for (Expense expense : expenses) {
+            LocalDate expenseDate = LocalDate.parse(expense.getDate(), DateTimeFormatter.ISO_DATE);
+            if (expenseDate.getMonth() == now.getMonth() && expenseDate.getYear() == now.getYear()) {
+                monthlyCategoryTotals.merge(expense.getCategory(), expense.getAmount(), Double::sum);
+            }
+        }
+
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        monthlyCategoryTotals.forEach(dataset::setValue);
+        return dataset;
+    }
+
+    private DefaultCategoryDataset createLineDataset(List<Expense> expenses) {
+        Map<String, Double> dailyTotals = new TreeMap<>();
+
+        for (Expense expense : expenses) {
+            dailyTotals.merge(expense.getDate(), expense.getAmount(), Double::sum);
+        }
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dailyTotals.forEach((date, amount) -> dataset.addValue(amount, "Expenses", date));
+        return dataset;
+    }
+
+    private JPanel createChartsPanel(DefaultPieDataset weeklyDataset, DefaultPieDataset monthlyDataset,
+                                     DefaultCategoryDataset lineDataset, List<Expense> recentExpenses) {
+
+        ChartPanel weeklyPanel = new ChartPanel(createPieChart("Weekly Expense Breakdown", weeklyDataset));
+        ChartPanel monthlyPanel = new ChartPanel(createPieChart("Monthly Expense Breakdown", monthlyDataset));
+        ChartPanel linePanel = new ChartPanel(createLineChart(lineDataset));
+        JPanel recentPanel = createRecentTransactionsPanel(recentExpenses);
+
+        monthlyCategoryTotalsLabel = new JLabel("Monthly Totals: " + monthlyCategoryTotals.toString());
+        weeklyCategoryTotalsLabel = new JLabel("Weekly Totals: " + weeklyCategoryTotals.toString());
+
+        JPanel labelsPanel = new JPanel(new GridLayout(3, 1));
+        labelsPanel.add(monthlyCategoryTotalsLabel);
+        labelsPanel.add(weeklyCategoryTotalsLabel);
+        labelsPanel.add(recentExpenseLabel);
+
+        weeklyPanel.setPreferredSize(new Dimension(600, 300));
+        monthlyPanel.setPreferredSize(new Dimension(600, 300));
+        linePanel.setPreferredSize(new Dimension(1200, 300));
+        recentPanel.setPreferredSize(new Dimension(1200, 200));
+
+        JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
+        panel.add(weeklyPanel);
+        panel.add(monthlyPanel);
+        panel.add(linePanel);
+        panel.add(labelsPanel);
+
+        return panel;
+    }
+
+    private JFreeChart createPieChart(String title, DefaultPieDataset dataset) {
+        return ChartFactory.createPieChart(title, dataset, true, true, false);
+    }
+
+    private JFreeChart createLineChart(DefaultCategoryDataset dataset) {
+        return ChartFactory.createLineChart("Weeks Expenses", "Date", "Amount (£)", dataset);
+    }
+
+    private JPanel createRecentTransactionsPanel(List<Expense> recentExpenses) {
+        getRecentExpenseText(recentExpenses);
+
+        recentExpenseLabel = new JLabel("<html>" + expenseSummary.replace("\n", "<br>") + "</html>");
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.add(new JScrollPane(recentExpenseLabel), BorderLayout.CENTER);
+        return panel;
+    }
+
+    public void getRecentExpenseText(List<Expense> recentExpenses) {
+        StringBuilder builder = new StringBuilder();
+        for (Expense expense : recentExpenses) {
+            builder.append(expense.getDate())
+                    .append(": £").append(expense.getAmount())
+                    .append(" (").append(expense.getCategory()).append(")\n");
+        }
+        this.expenseSummary = builder.toString();
+    }
+
+    public String getExpenseSummary() {
+        return expenseSummary;
+    }
+    public Map<String, Double> getMonthlyCategoryTotals() {
+        return monthlyCategoryTotals;
+    }
+
+    public Map<String, Double> getWeeklyCategoryTotals() {
+        return weeklyCategoryTotals;
+    }
+
+    public JLabel getMonthlyCategoryTotalsLabel() {
+        return monthlyCategoryTotalsLabel;
+    }
+
+    public JLabel getWeeklyCategoryTotalsLabel() {
+        return weeklyCategoryTotalsLabel;
+    }
+
+    public JLabel getRecentExpenseLabel() {
+        return recentExpenseLabel;
     }
 }
 
-//weekly income vs weekly expenses to add

@@ -14,6 +14,7 @@ public class GoalsView extends JPanel {
     private DefaultListModel<String> goalsListModel;
     private JList<String> goalsList;
     private JTextField goalNameField, spendingLimitField, durationField;
+    private JButton addGoalButton, removeGoalButton;
 
     public GoalsView() {
         goalsController = new GoalsController();
@@ -42,8 +43,8 @@ public class GoalsView extends JPanel {
         durationField = new JTextField();
         inputPanel.add(durationField);
 
-        JButton addGoalButton = new JButton("Add Goal");
-        JButton removeGoalButton = new JButton("Remove Selected Goal");
+        addGoalButton = new JButton("Add Goal");
+        removeGoalButton = new JButton("Remove Selected Goal");
 
         inputPanel.add(addGoalButton);
         inputPanel.add(removeGoalButton);
@@ -108,5 +109,20 @@ public class GoalsView extends JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Select a goal to remove", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public JButton getAddGoalButton() {
+        return addGoalButton;
+    }
+
+    public JButton getRemoveGoalButton() {
+        return removeGoalButton;
+    }
+    public Object getGoalInputField() {
+        return goalNameField;
+    }
+
+    public Object getGoalList() {
+        return goalsList;
     }
 }

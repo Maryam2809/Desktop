@@ -6,7 +6,6 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,3 +43,21 @@ jobs:
         with:
           name: code-coverage-report
           path: target/site/jacoco/
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
+
+      - name: Start Xvfb
+        run: Xvfb :99 -screen 0 1280x1024x24 &
+
+      - name: Run Tests with Maven
+        run: |
+          export DISPLAY=:99
+          mvn clean test

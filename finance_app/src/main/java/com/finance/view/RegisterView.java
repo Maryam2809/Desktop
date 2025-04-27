@@ -66,4 +66,28 @@ public class RegisterView extends JFrame {
             JOptionPane.showMessageDialog(this, "Registration Failed! Please try again.");
         }
     }
+
+    public JTextField getFirstNameField() {
+        return firstNameField;
+    }
+
+    public JTextField getLastNameField() {
+        return lastNameField;
+    }
+
+    public JTextField getEmailField() {
+        return emailField;
+    }
+
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public JButton getRegisterButton() {
+        return registerButton;
+    }
+
+    public void setRegisterButton(JButton registerButton) {
+        this.registerButton = registerButton;
+    }
 }
