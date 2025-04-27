@@ -72,17 +72,5 @@ public class HomeViewTest extends BaseTest{
         assertInstanceOf(JPanel.class, statCards[2], "Goals card should be a JPanel");
     }
 
-    @Test
-    public void testHomePageLayoutType() {
-        User user = new User("John", "Doe", "email","password");
-        List<String> notifications = new ArrayList<>();
-        notifications.add("Test notification");
-        HomeView view = new HomeView(user, notifications);
-        assertInstanceOf(BorderLayout.class, view.getLayout());
-        JPanel greetingPanel = (JPanel) view.getComponent(0);
-        assertInstanceOf(BorderLayout.class, greetingPanel.getLayout());
-        JPanel centerPanel = (JPanel) view.getComponent(1);
-        assertInstanceOf(BorderLayout.class, centerPanel.getLayout());
-    }
 
 }

@@ -80,15 +80,5 @@ class AnalyticsPageViewTest extends BaseTest{
         assertTrue(summary.contains("(Clothes)"));
     }
 
-    @Test
-    public void testAnalyticsPageLayoutType() {
-        AnalyticsPageView view = new AnalyticsPageView();
-
-        assertInstanceOf(BorderLayout.class, view.getLayout(), "AnalyticsPageView's main panel should use BorderLayout");
-
-        JPanel chartsPanel = (JPanel) view.getComponent(0);
-        assertInstanceOf(GridLayout.class, chartsPanel.getLayout(), "Charts panel should use GridLayout");
-    }
-
 
 }

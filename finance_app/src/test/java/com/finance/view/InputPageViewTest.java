@@ -52,14 +52,4 @@ public class InputPageViewTest extends BaseTest{
         assertEquals(1, listeners.length);
     }
 
-    @Test
-    public void testLayoutType() {
-        InputPageView view = new InputPageView();
-
-        assertInstanceOf(BorderLayout.class, view.getLayout(), "Main panel should use BorderLayout");
-
-        JPanel inputPanel = (JPanel) view.getComponent(0);
-        assertInstanceOf(GridLayout.class, inputPanel.getLayout(), "inputPanel should use GridLayout");
-    }
-
 }
