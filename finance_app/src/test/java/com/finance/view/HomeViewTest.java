@@ -9,7 +9,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import static org.junit.jupiter.api.Assertions.*;
 import javax.swing.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class HomeViewTest extends BaseTest {
     private HomeView homeView;
 

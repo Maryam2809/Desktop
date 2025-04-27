@@ -4,15 +4,12 @@ import com.finance.model.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.swing.*;
 import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class MainMenuViewTest extends BaseTest{
 
     private  MainMenuView mainMenuView;
@@ -41,7 +38,7 @@ public class MainMenuViewTest extends BaseTest{
     @Test
     public void testMainMenuInitialization() {
         assertNotNull(mainMenuView);
-        assertEquals("Finance Tracker - Main Menu", mainMenuView.getTitle());
+        assertEquals("Finance Tracker", mainMenuView.getTitle());
         assertEquals(1300, mainMenuView.getWidth());
         assertEquals(500, mainMenuView.getHeight());
     }

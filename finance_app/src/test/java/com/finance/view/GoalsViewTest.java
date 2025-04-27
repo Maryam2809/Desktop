@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class GoalsViewTest extends BaseTest {
     private GoalsView goalsView;
 
