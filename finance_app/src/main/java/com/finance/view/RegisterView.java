@@ -88,6 +88,5 @@ public class RegisterView extends JFrame {
     }
 
     public void setRegisterButton(JButton registerButton) {
-        this.registerButton = registerButton;
     }
 }
