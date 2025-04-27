@@ -7,13 +7,12 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.awt.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MainMenuViewTest extends BaseTest{
+public class MainMenuViewTest extends BaseTest {
 
-    private  MainMenuView mainMenuView;
-    private  User mockUser;
+    private MainMenuView mainMenuView;
+    private User mockUser;
 
     private void clickButtonAndVerifyContent(JButton button, Class<?> expectedView) {
         button.doClick();
@@ -25,7 +24,7 @@ public class MainMenuViewTest extends BaseTest{
     @BeforeAll
     static void checkHeadless() {
         if (GraphicsEnvironment.isHeadless()) {
-            System.out.println("Headless environment detected, skipping tests");
+            System.out.println("Headless environment detected, running tests in headless mode.");
         }
     }
 
@@ -37,17 +36,17 @@ public class MainMenuViewTest extends BaseTest{
 
     @Test
     public void testMainMenuInitialization() {
-        assertNotNull(mainMenuView);
-        assertEquals("Finance Tracker - Main Menu", mainMenuView.getTitle());
-        assertEquals(1300, mainMenuView.getWidth());
-        assertEquals(500, mainMenuView.getHeight());
+        assertNotNull(mainMenuView, "MainMenuView should not be null");
+        assertEquals("Finance Tracker - Main Menu", mainMenuView.getTitle(), "Main menu title is incorrect");
+        assertEquals(1300, mainMenuView.getWidth(), "Main menu width should be 1300");
+        assertEquals(500, mainMenuView.getHeight(), "Main menu height should be 500");
     }
 
     @Test
     public void testSidebarButtons() {
         Component[] components = mainMenuView.getSidebarPanel().getComponents();
-
         assertEquals(5, components.length, "Sidebar should have 5 buttons: Home, Analytics, Input, Goals, Logout");
+
         for (Component component : components) {
             assertTrue(component instanceof JButton, "Sidebar should contain only buttons");
         }
@@ -104,5 +103,3 @@ public class MainMenuViewTest extends BaseTest{
         assertTrue(mainMenuView.getContentPanel().getComponentCount() > 0, "Content panel should have at least one component initially");
     }
 }
-
-
