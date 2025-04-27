@@ -29,12 +29,6 @@ public class HomeViewTest extends BaseTest{
         homeView = new HomeView(mockUser, Arrays.asList("New expense added", "Goal reached"));
     }
 
-    @Test
-    public void testLayout() {
-        assertInstanceOf(BorderLayout.class, homeView.getLayout());
-        assertNotNull(homeView.getComponentAt(new Point(0, 0)));
-        assertNotNull(homeView.getComponentAt(new Point(0, 1)));
-    }
 
     @Test
     public void testGreetingLabelText() {

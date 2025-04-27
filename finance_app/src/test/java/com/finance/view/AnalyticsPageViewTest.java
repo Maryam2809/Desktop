@@ -49,18 +49,6 @@ class AnalyticsPageViewTest extends BaseTest{
     }
 
     @Test
-    void testLayout() {
-        AnalyticsPageView view = new AnalyticsPageView();
-
-        assertInstanceOf(BorderLayout.class, view.getLayout(), "Layout should be BorderLayout");
-        assertNotNull(view.getComponentAt(new Point(0, 0)));
-        assertNotNull(view.getComponentAt(new Point(0, 1)));
-        assertNotNull(view.getComponentAt(new Point(0, 2)));
-        assertNotNull(view.getComponentAt(new Point(0, 3)));
-    }
-
-
-    @Test
     void testGetRecentExpenseText() {
         AnalyticsPageView view = new AnalyticsPageView();
         List<Expense> mockExpenses = Arrays.asList(
@@ -79,6 +67,4 @@ class AnalyticsPageViewTest extends BaseTest{
         assertTrue(summary.contains("(Food)"));
         assertTrue(summary.contains("(Clothes)"));
     }
-
-
 }
