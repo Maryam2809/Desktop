@@ -1,11 +1,15 @@
 package com.finance.view;
 
 import com.finance.model.Expense;
+import com.finance.model.User;
+import org.jfree.chart.ChartPanel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -75,4 +79,16 @@ class AnalyticsPageViewTest extends BaseTest{
         assertTrue(summary.contains("(Food)"));
         assertTrue(summary.contains("(Clothes)"));
     }
+
+    @Test
+    public void testAnalyticsPageLayoutType() {
+        AnalyticsPageView view = new AnalyticsPageView();
+
+        assertInstanceOf(BorderLayout.class, view.getLayout(), "AnalyticsPageView's main panel should use BorderLayout");
+
+        JPanel chartsPanel = (JPanel) view.getComponent(0);
+        assertInstanceOf(GridLayout.class, chartsPanel.getLayout(), "Charts panel should use GridLayout");
+    }
+
+
 }

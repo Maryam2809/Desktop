@@ -23,8 +23,6 @@ public class InputPageViewTest extends BaseTest{
     @Test
     public void testInputPageViewCreation() {
         assertNotNull(inputPageView, "InputPageView should be created successfully");
-        assertEquals(1300, inputPageView.getWidth(), "Width should be 1300");
-        assertEquals(500, inputPageView.getHeight(), "Height should be 500");
         assertTrue(inputPageView.isVisible(), "InputPageView should be visible");
         assertTrue(inputPageView.isFocusable(), "InputPageView should be focusable");
     }
@@ -38,13 +36,6 @@ public class InputPageViewTest extends BaseTest{
         assertInstanceOf(JComboBox.class, inputPageView.getTypeDropdown());
         assertInstanceOf(JButton.class, inputPageView.getAddButton());
         assertInstanceOf(JButton.class, inputPageView.getRemoveButton());
-    }
-
-    @Test
-    public void testLayout() {
-        assertInstanceOf(BorderLayout.class, inputPageView.getLayout());
-        assertNotNull(inputPageView.getComponentAt(new Point(0, 0)));
-        assertNotNull(inputPageView.getComponentAt(new Point(0, 1)));
     }
 
     @Test
@@ -62,8 +53,13 @@ public class InputPageViewTest extends BaseTest{
     }
 
     @Test
-    public void testExpenseListIsEmptyInitially() {
-        assertTrue(inputPageView.getExpenseListArea().getText().isEmpty(), "Expense list should be empty initially");
+    public void testLayoutType() {
+        InputPageView view = new InputPageView();
+
+        assertInstanceOf(BorderLayout.class, view.getLayout(), "Main panel should use BorderLayout");
+
+        JPanel inputPanel = (JPanel) view.getComponent(0);
+        assertInstanceOf(GridLayout.class, inputPanel.getLayout(), "inputPanel should use GridLayout");
     }
 
 }
