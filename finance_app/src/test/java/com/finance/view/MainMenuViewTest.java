@@ -2,7 +2,6 @@ package com.finance.view;
 
 import com.finance.model.User;
 import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MainMenuViewTest extends BaseTest{
 
     private  MainMenuView mainMenuView;
-    private  User mockUser;
 
     private void clickButtonAndVerifyContent(JButton button, Class<?> expectedView) {
         button.doClick();
@@ -32,7 +30,7 @@ public class MainMenuViewTest extends BaseTest{
 
     @BeforeEach
     public void setUp() {
-        mockUser = new User("John", "Doe", "john.doe@example.com", "password");
+        User mockUser = new User("John", "Doe", "john.doe@example.com", "password");
         mainMenuView = new MainMenuView(mockUser);
     }
 
@@ -50,7 +48,7 @@ public class MainMenuViewTest extends BaseTest{
 
         assertEquals(5, components.length, "Sidebar should have 5 buttons: Home, Analytics, Input, Goals, Logout");
         for (Component component : components) {
-            assertTrue(component instanceof JButton, "Sidebar should contain only buttons");
+            assertInstanceOf(JButton.class, component, "Sidebar should contain only buttons");
         }
     }
 
@@ -88,17 +86,17 @@ public class MainMenuViewTest extends BaseTest{
     @Test
     public void testInitialContentPanelText() {
         Component comp = mainMenuView.getContentPanel().getComponent(0);
-        assertTrue(comp instanceof JLabel, "First component should be JLabel");
+        assertInstanceOf(JLabel.class, comp, "First component should be JLabel");
         JLabel label = (JLabel) comp;
         assertEquals("Welcome to Finance Tracker!", label.getText(), "Initial content should display the welcome message");
     }
 
     @Test
     public void testLayout() {
-        assertTrue(mainMenuView.getLayout() instanceof BorderLayout, "Main layout should be BorderLayout");
+        assertInstanceOf(BorderLayout.class, mainMenuView.getLayout(), "Main layout should be BorderLayout");
         assertEquals(200, mainMenuView.getSidebarPanel().getPreferredSize().width, "Sidebar should have width of 200");
-        assertTrue(mainMenuView.getSidebarPanel().getLayout() instanceof GridLayout, "Sidebar layout should be GridLayout");
-        assertTrue(mainMenuView.getContentPanel().getLayout() instanceof BorderLayout, "Content panel layout should be BorderLayout");
+        assertInstanceOf(GridLayout.class, mainMenuView.getSidebarPanel().getLayout(), "Sidebar layout should be GridLayout");
+        assertInstanceOf(BorderLayout.class, mainMenuView.getContentPanel().getLayout(), "Content panel layout should be BorderLayout");
     }
 
     private void assertInitialContentPanel() {

@@ -1,7 +1,6 @@
 package com.finance.view;
 
 import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +10,7 @@ import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.*;  // <-- ADD THIS!
+import static org.mockito.Mockito.*;
 
 public class LoginViewTest extends BaseTest {
     LoginView loginView;
