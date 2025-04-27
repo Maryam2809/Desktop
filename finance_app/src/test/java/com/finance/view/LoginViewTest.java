@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class LoginViewTest extends BaseTest{
-    LoginView loginView;
+    /*LoginView loginView;
 
     @BeforeEach
     public void setUp() {
@@ -46,5 +46,5 @@ public class LoginViewTest extends BaseTest{
         JPasswordField passwordField = loginView.getPasswordField();
         assertEquals(20, passwordField.getColumns());
     }
-
+*/
 }

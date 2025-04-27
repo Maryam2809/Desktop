@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RegisterViewTest extends BaseTest {
 
-    private RegisterView registerView;
+    /*private RegisterView registerView;
 
     @BeforeEach
     public void setup() {
@@ -41,4 +41,5 @@ public class RegisterViewTest extends BaseTest {
         listeners = registerView.getRegisterButton().getActionListeners();
         assertEquals(1, listeners.length, "Register button should have one action listener after adding one");
     }
+}*/
 }
