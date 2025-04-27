@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeViewTest{
+public class HomeViewTest {
 
     private HomeView homeView;
     private User mockUser;

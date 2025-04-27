@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 import java.awt.event.ActionListener;
 
-public class InputPageViewTest extends BaseTest{
+public class InputPageViewTest{
     private InputPageView inputPageView;
 
     @BeforeEach
