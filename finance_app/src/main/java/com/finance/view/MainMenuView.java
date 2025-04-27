@@ -96,3 +96,4 @@ public class MainMenuView extends JFrame {
         contentPanel.repaint();
     }
 }
+

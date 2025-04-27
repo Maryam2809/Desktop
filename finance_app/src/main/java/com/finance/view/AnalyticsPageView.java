@@ -16,16 +16,20 @@ import java.util.*;
 import java.util.List;
 
 public class AnalyticsPageView extends JPanel {
-    private final FinanceDAO financeDAO;
     private String expenseSummary;
 
+    private Map<String, Double> monthlyCategoryTotals;
+    private Map<String, Double> weeklyCategoryTotals;
+
+    private JLabel monthlyCategoryTotalsLabel;
+    private JLabel weeklyCategoryTotalsLabel;
     private JLabel recentExpenseLabel;
 
     public AnalyticsPageView() {
         setLayout(new BorderLayout());
         setVisible(true);
 
-        financeDAO = new FinanceDAO();
+        FinanceDAO financeDAO = new FinanceDAO();
 
         List<Expense> allExpenses = financeDAO.getAllExpenses();
         List<Expense> recentExpenses = financeDAO.getRecentExpenses();
@@ -40,7 +44,7 @@ public class AnalyticsPageView extends JPanel {
     }
 
     private DefaultPieDataset createWeeklyDataset(List<Expense> expenses) {
-        Map<String, Double> weeklyCategoryTotals = new HashMap<>();
+        weeklyCategoryTotals = new HashMap<>();
         LocalDate now = LocalDate.now();
 
         for (Expense expense : expenses) {
@@ -56,7 +60,7 @@ public class AnalyticsPageView extends JPanel {
     }
 
     private DefaultPieDataset createMonthlyDataset(List<Expense> expenses) {
-        Map<String, Double> monthlyCategoryTotals = new HashMap<>();
+        monthlyCategoryTotals = new HashMap<>();
         LocalDate now = LocalDate.now();
 
         for (Expense expense : expenses) {
@@ -88,15 +92,27 @@ public class AnalyticsPageView extends JPanel {
 
         ChartPanel weeklyPanel = new ChartPanel(createPieChart("Weekly Expense Breakdown", weeklyDataset));
         ChartPanel monthlyPanel = new ChartPanel(createPieChart("Monthly Expense Breakdown", monthlyDataset));
-        ChartPanel linePanel = new ChartPanel(createLineChart("Weekly Expenses", "Date", "Amount (£)", lineDataset));
+        ChartPanel linePanel = new ChartPanel(createLineChart(lineDataset));
         JPanel recentPanel = createRecentTransactionsPanel(recentExpenses);
 
-        // Remove monthly and weekly totals labels since we are focusing on recent expenses
+        monthlyCategoryTotalsLabel = new JLabel("Monthly Totals: " + monthlyCategoryTotals.toString());
+        weeklyCategoryTotalsLabel = new JLabel("Weekly Totals: " + weeklyCategoryTotals.toString());
+
+        JPanel labelsPanel = new JPanel(new GridLayout(3, 1));
+        labelsPanel.add(monthlyCategoryTotalsLabel);
+        labelsPanel.add(weeklyCategoryTotalsLabel);
+        labelsPanel.add(recentExpenseLabel);
+
+        weeklyPanel.setPreferredSize(new Dimension(600, 300));
+        monthlyPanel.setPreferredSize(new Dimension(600, 300));
+        linePanel.setPreferredSize(new Dimension(1200, 300));
+        recentPanel.setPreferredSize(new Dimension(1200, 200));
+
         JPanel panel = new JPanel(new GridLayout(2, 2, 10, 10));
         panel.add(weeklyPanel);
         panel.add(monthlyPanel);
         panel.add(linePanel);
-        panel.add(recentPanel);
+        panel.add(labelsPanel);
 
         return panel;
     }
@@ -105,15 +121,14 @@ public class AnalyticsPageView extends JPanel {
         return ChartFactory.createPieChart(title, dataset, true, true, false);
     }
 
-    private JFreeChart createLineChart(String title, String categoryAxisLabel, String valueAxisLabel, DefaultCategoryDataset dataset) {
-        return ChartFactory.createLineChart(title, categoryAxisLabel, valueAxisLabel, dataset);
+    private JFreeChart createLineChart(DefaultCategoryDataset dataset) {
+        return ChartFactory.createLineChart("Weeks Expenses", "Date", "Amount (£)", dataset);
     }
 
     private JPanel createRecentTransactionsPanel(List<Expense> recentExpenses) {
         getRecentExpenseText(recentExpenses);
 
-        // Create heading for recent expenses
-        recentExpenseLabel = new JLabel("<html><h3>Recent Expenses</h3><br>" + expenseSummary.replace("\n", "<br>") + "</html>");
+        recentExpenseLabel = new JLabel("<html>" + expenseSummary.replace("\n", "<br>") + "</html>");
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JScrollPane(recentExpenseLabel), BorderLayout.CENTER);
         return panel;
@@ -131,5 +146,24 @@ public class AnalyticsPageView extends JPanel {
 
     public String getExpenseSummary() {
         return expenseSummary;
+    }
+    public Map<String, Double> getMonthlyCategoryTotals() {
+        return monthlyCategoryTotals;
+    }
+
+    public Map<String, Double> getWeeklyCategoryTotals() {
+        return weeklyCategoryTotals;
+    }
+
+    public JLabel getMonthlyCategoryTotalsLabel() {
+        return monthlyCategoryTotalsLabel;
+    }
+
+    public JLabel getWeeklyCategoryTotalsLabel() {
+        return weeklyCategoryTotalsLabel;
+    }
+
+    public JLabel getRecentExpenseLabel() {
+        return recentExpenseLabel;
     }
 }
