@@ -1,6 +1,6 @@
 # Finance App
-A personal finance tracking app with a GUI interface that runs seamlessly inside Docker. 
-This guide helps macOS users get started.
+A desktop personal finance tracking app with a GUI interface that runs seamlessly inside Docker. 
+This guide will help you get started.
 
 ## 📦 Prerequisites
 Before you begin, make sure you have the following installed on your Mac:
